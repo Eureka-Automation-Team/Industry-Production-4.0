@@ -24,8 +24,4 @@
     <PackageReference Include="Shouldly" Version="3.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\WebUI\WebUI.csproj" />
-  </ItemGroup>
-
 </Project>
