@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using IPD.Infrastructure.Identity;
 using IPD.Infrastructure.Persistence;
+using MediatR;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -30,9 +32,11 @@ namespace WebApp
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     context.Database.Migrate();
 
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var identityContext = services.GetRequiredService<ApplicationDbContext>();
+                    identityContext.Database.Migrate();
 
-                    await ApplicationDbContextSeed.SeedAsync(userManager);
+                    var mediator = services.GetRequiredService<IMediator>();
+                    //await mediator.Send(new SeedSampleDataCommand(), CancellationToken.None);
                 }
                 catch (Exception ex)
                 {

@@ -22,6 +22,8 @@ namespace WebApp
 {
     public class Startup
     {
+        private IServiceCollection _services;
+
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
@@ -35,19 +37,21 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication();
             services.AddInfrastructure(Configuration, Environment);
+            //services.AddPersistence(Configuration);
+            services.AddApplication();
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpContextAccessor();
 
-            services.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
-
-            services.AddControllersWithViews()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>())
-                .AddNewtonsoftJson();
+            services
+                .AddControllersWithViews()
+                .AddNewtonsoftJson()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ApplicationDbContext>());
 
             services.AddRazorPages();
 
@@ -57,19 +61,18 @@ namespace WebApp
                 options.SuppressModelStateInvalidFilter = true;
             });
 
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
+
             services.AddOpenApiDocument(configure =>
             {
-                configure.Title = "IPD API";
-                configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
-                {
-                    Type = OpenApiSecuritySchemeType.ApiKey,
-                    Name = "Authorization",
-                    In = OpenApiSecurityApiKeyLocation.Header,
-                    Description = "Type into the textbox: Bearer {your JWT token}."
-                });
-
-                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+                configure.Title = "Northwind Traders API";
             });
+
+            _services = services;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,9 +107,9 @@ namespace WebApp
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseIdentityServer();
-            app.UseAuthorization();
+            //app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
