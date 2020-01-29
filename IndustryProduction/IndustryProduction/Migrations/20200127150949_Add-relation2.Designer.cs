@@ -4,14 +4,16 @@ using IndustryProduction.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IndustryProduction.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200127150949_Add-relation2")]
+    partial class Addrelation2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,9 +225,6 @@ namespace IndustryProduction.Migrations
                     b.Property<int>("LastUpdatedBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("MachineId")
-                        .HasColumnType("int");
-
                     b.Property<string>("MachineNo")
                         .HasColumnType("nvarchar(50)");
 
@@ -328,8 +327,6 @@ namespace IndustryProduction.Migrations
                     b.HasKey("TaskId");
 
                     b.HasIndex("JobEntityId");
-
-                    b.HasIndex("MachineId");
 
                     b.ToTable("JobTasks");
                 });
@@ -584,12 +581,6 @@ namespace IndustryProduction.Migrations
                     b.HasOne("IndustryProduction.Models.JobEntityModel", "JobEntity")
                         .WithMany("JobTasks")
                         .HasForeignKey("JobEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IndustryProduction.Models.MachineModel", "Machine")
-                        .WithMany()
-                        .HasForeignKey("MachineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

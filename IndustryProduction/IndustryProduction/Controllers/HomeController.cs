@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IndustryProduction.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IndustryProduction.Controllers
 {
@@ -18,6 +19,7 @@ namespace IndustryProduction.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();

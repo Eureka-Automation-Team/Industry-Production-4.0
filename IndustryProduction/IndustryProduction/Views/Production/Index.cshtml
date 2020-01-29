@@ -1,0 +1,339 @@
+﻿@model IndustryProduction.ViewModels.Production.ProductionViewModel
+
+@section Header{
+    @*<link rel="stylesheet" href="~/plugins/Chart.js/Chart.min.css" />*@
+    <script src="~/plugins/jquery/jquery.slim.min.js"></script>
+    <script src="~/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/plugins/datepicker/datepicker.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <!-- jsGrid -->
+    <link rel="stylesheet" href="~/plugins/jsgrid/jsgrid.min.css">
+    <link rel="stylesheet" href="~/plugins/jsgrid/jsgrid-theme.min.css">
+}
+<h3></h3>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!-- .card -->
+                <div class="card">
+                    <form asp-action="Index" method="get">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Require Start date</label>
+
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="far fa-calendar-alt"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control float-right" id="requireDateFrom" value=@Model.StartDate>
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>End date</label>
+
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="far fa-calendar-alt"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control float-right" id="requireDateTo" value=@Model.EndDate>
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label> Machine</label>
+                                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                                        id="searchMachineNo">
+                                                    <option selected="selected" data-select2-id="11">@ViewData["currentMachineNo"]</option>
+                                                    <option data-select2-id="29">MC1</option>
+                                                    <option data-select2-id="31">MC2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label> Machine Group</label>
+                                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                                        id="searchMachineGroup">
+                                                    <option selected="selected">@ViewData["currentMachineGroup"]</option>
+                                                    <option data-select2-id="29">CNC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Machine Model </label>
+                                                <input type="text" class="form-control is-valid" id="inputModel" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Production Line </label>
+                                                <input type="text" class="form-control is-valid" id="prodLine" value="">
+                                            </div>
+                                        </div>
+                                        @*<div class="col-2">
+            <div class="form-group">
+                <label style="color: white;">.</label>
+                <input type="submit" value="Search" class="btn btn-block btn-success" />
+            </div>
+        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Production Progress</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Production Queuing Table</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @*<partial name="_ProductionQueing" />*@
+                        <div id="jsGrid1"></div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Summaries</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-4 col-4">
+                                <!-- small card -->
+                                <div class="small-box bg-warning">
+                                    <div class="inner">
+                                        <h3>3</h3>
+
+                                        <p>PLAN</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">
+                                        More info <i class="fas fa-arrow-circle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-4">
+                                <!-- small card -->
+                                <div class="small-box bg-success">
+                                    <div class="inner">
+                                        <h3>2<sup style="font-size: 20px"></sup></h3>
+
+                                        <p>ACTUAL</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-stats-bars"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">
+                                        More info <i class="fas fa-arrow-circle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-4">
+                                <!-- small card -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                        <h3>67<sup style="font-size: 20px"></sup>%</h3>
+
+                                        <p>COMPLETE</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">
+                                        More info <i class="fas fa-arrow-circle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        @*<div class="row">
+
+        </div>*@
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Production Record</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="jsGrid2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+</section>
+
+@section Scripts{
+    <script src="~/plugins/datepicker/datepicker.min.js"></script>
+
+    <!-- jsGrid -->
+    <script src="~/plugins/jsgrid/demos/db.js"></script>
+    <script src="~/plugins/jsgrid/jsgrid.min.js"></script>
+
+    <script>
+        //Date range picker
+        $('#requireDateFrom').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
+        $('#requireDateTo').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
+
+        $(function () {
+            setInterval(
+                function () {
+                    var startDate = $("#requireDateFrom").val();
+                    var endDate = $("#requireDateTo").val();
+                    var machineNo = $("#searchMachineNo").val();
+                    var machineGroup = $("#searchMachineGroup").val();
+                    var machineModel = $("#inputModel").val();
+                    var prodLine = $("#prodLine").val();
+
+                    $("#jsGrid1").jsGrid({
+                        //height: "100%",
+                        width: "100%",
+
+                        sorting: true,
+                        paging: true,
+                        autoload: true,
+                        pageSize: 4,
+
+                        controller: {
+                            loadData: function (filter) {
+                                return $.ajax({
+                                    type: "GET",
+                                    url: "/Production/GetTaskQueing",
+                                    data: "startDate=" + startDate + "&endDate=" + endDate + "&machineNo=" + machineNo + "&machineGroup=" + machineGroup + "&machineModel=" + machineModel + "&pdLine=" + prodLine,
+                                    dataType: "JSON",
+                                    success: function (response) {
+                                        console.log(response);
+                                    }
+                                }).done(function (response) {
+                                    //console.log(machineNo);
+                                    //console.log(endDate);
+                                })
+                            }
+                        },
+                        fields: [
+                            { name: "Priority", type: "number", width: 30, align: "center", title: "Seq." },
+                            { name: "JobEntity.PrimaryItemCode", type: "text", align: "center", title: "Part Number" },
+                            { name: "TableNumber", type: "text", width: 50, align: "center", title: "Table No." },
+                            { name: "JobNumber", type: "text", width: 50, align: "center", title: "Job No." },
+                            { name: "DueDate", type: "text", align: "center", title: "Required Date" },
+                            { name: "MachineNoReady", type: "text", align: "center", title: "Machine Code" },
+                            { name: "", type: "text", align: "center", title: "PD Status" }
+                        ]
+                    });
+                    //console.log("test");
+                }
+                , 3000); // every 3 sec
+        });
+
+        $(function () {
+            setInterval(
+                function () {
+                    var startDate = $("#requireDateFrom").val();
+                    var endDate = $("#requireDateTo").val();
+                    var machineNo = $("#searchMachineNo").val();
+                    var machineGroup = $("#searchMachineGroup").val();
+                    var machineModel = $("#inputModel").val();
+                    var prodLine = $("#prodLine").val();
+
+                    $("#jsGrid2").jsGrid({
+                        //height: "100%",
+                        width: "100%",
+
+                        sorting: true,
+                        paging: true,
+                        autoload: true,
+                        pageSize: 4,
+
+                        controller: {
+                            loadData: function (filter) {
+                                return $.ajax({
+                                    type: "GET",
+                                    url: "/Production/GetTaskProductionRecord",
+                                    data: "startDate=" + startDate + "&endDate=" + endDate + "&machineNo=" + machineNo + "&machineGroup=" + machineGroup + "&machineModel=" + machineModel + "&pdLine=" + prodLine,
+                                    dataType: "JSON",
+                                    success: function (response) {
+                                        console.log(response);
+                                    }
+                                }).done(function (response) {
+                                    //console.log(machineNo);
+                                    //console.log(endDate);
+                                })
+                            }
+                        },
+                        fields: [
+                            { name: "StartDate", type: "text", align: "center", title: "Start Time" },
+                            { name: "JobEntity.JobEntityName", type: "text", align: "center", title: "Job Number" },
+                            { name: "JobEntity.PrimaryItemCode", type: "text", align: "center", title: "Part Number" },
+                            { name: "TableNumber", type: "text", align: "center", title: "Table No." },
+                            { name: "MachineNoReady", type: "text", align: "center", title: "Machine Code" },
+                            { name: "NcFile", type: "text", align: "left", title: "NC file" },
+                            { name: "", type: "text", align: "center", title: "Setup By" },
+                            { name: "EndDate", type: "text", align: "center", title: "Finish Time" },
+                            { name: "", type: "text", align: "center", title: "Machine Time(hr)" }
+                        ]
+                    });
+                    //console.log("test");
+                }
+                , 3000); // every 3 sec
+        });
+
+    </script>
+}

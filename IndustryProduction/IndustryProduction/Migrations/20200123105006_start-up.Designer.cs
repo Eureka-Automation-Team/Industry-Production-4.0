@@ -4,14 +4,16 @@ using IndustryProduction.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IndustryProduction.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200123105006_start-up")]
+    partial class startup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,7 +213,7 @@ namespace IndustryProduction.Migrations
                     b.Property<string>("ErrorText")
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("JobEntityId")
+                    b.Property<int>("JobId")
                         .HasColumnType("int");
 
                     b.Property<string>("JobNumber")
@@ -221,9 +223,6 @@ namespace IndustryProduction.Migrations
                         .HasColumnType("datetime2(7)");
 
                     b.Property<int>("LastUpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MachineId")
                         .HasColumnType("int");
 
                     b.Property<string>("MachineNo")
@@ -327,10 +326,6 @@ namespace IndustryProduction.Migrations
 
                     b.HasKey("TaskId");
 
-                    b.HasIndex("JobEntityId");
-
-                    b.HasIndex("MachineId");
-
                     b.ToTable("JobTasks");
                 });
 
@@ -419,7 +414,7 @@ namespace IndustryProduction.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Shift2")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("invarchar(50)nt");
 
                     b.Property<string>("ShiftOT")
                         .HasColumnType("nvarchar(50)");
@@ -577,21 +572,6 @@ namespace IndustryProduction.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("IndustryProduction.Models.JobEntityTaskModel", b =>
-                {
-                    b.HasOne("IndustryProduction.Models.JobEntityModel", "JobEntity")
-                        .WithMany("JobTasks")
-                        .HasForeignKey("JobEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IndustryProduction.Models.MachineModel", "Machine")
-                        .WithMany()
-                        .HasForeignKey("MachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
