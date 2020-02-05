@@ -18,89 +18,102 @@
                 <!-- .card -->
                 <div class="card">
                     <form asp-action="Index" method="get">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Require Start date</label>
-
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            <i class="far fa-calendar-alt"></i>
-                                                        </span>
-                                                    </div>
-                                                    <input type="text" class="form-control float-right" id="requireDateFrom" value=@Model.StartDate>
-                                                </div>
-                                                <!-- /.input group -->
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>End date</label>
-
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            <i class="far fa-calendar-alt"></i>
-                                                        </span>
-                                                    </div>
-                                                    <input type="text" class="form-control float-right" id="requireDateTo" value=@Model.EndDate>
-                                                </div>
-                                                <!-- /.input group -->
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label> Machine</label>
-                                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
-                                                        id="searchMachineNo">
-                                                    <option selected="selected" data-select2-id="11">@ViewData["currentMachineNo"]</option>
-                                                    <option data-select2-id="29">MC1</option>
-                                                    <option data-select2-id="31">MC2</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label> Machine Group</label>
-                                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
-                                                        id="searchMachineGroup">
-                                                    <option selected="selected">@ViewData["currentMachineGroup"]</option>
-                                                    <option data-select2-id="29">CNC</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Machine Model </label>
-                                                <input type="text" class="form-control is-valid" id="inputModel" value="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Production Line </label>
-                                                <input type="text" class="form-control is-valid" id="prodLine" value="">
-                                            </div>
-                                        </div>
-                                        @*<div class="col-2">
-            <div class="form-group">
-                <label style="color: white;">.</label>
-                <input type="submit" value="Search" class="btn btn-block btn-success" />
-            </div>
-        </div>*@
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
                 <!-- /.card -->
             </div>
             <!-- /.col -->
         </div>
+
+        <!-- row header for parameter-->
+        <div class="card card-outline card-success">
+            <div class="card-header">
+                <h3 class="card-title">Production Status filtering</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+                <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body" style="display: block;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Require Start date</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="requireDateFrom" value=@Model.StartDate>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>End date</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="requireDateTo" value=@Model.EndDate>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label> Machine</label>
+                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                            id="searchMachineNo">
+                                        <option selected="selected" data-select2-id="11">@ViewData["currentMachineNo"]</option>
+                                        <option data-select2-id="29">MC1</option>
+                                        <option data-select2-id="31">MC2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label> Machine Group</label>
+                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                            id="searchMachineGroup">
+                                        <option selected="selected">@ViewData["currentMachineGroup"]</option>
+                                        <option data-select2-id="29">CNC</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Machine Model </label>
+                                    <input type="text" class="form-control is-valid" id="inputModel" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Production Line </label>
+                                    <input type="text" class="form-control is-valid" id="prodLine" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <!-- /.card-body -->
+        </div>
+        <!-- /.row -->
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -109,7 +122,44 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="progress" id="timeProgress">
 
+                        </div>
+                        <div class="progress progress-sm active" id="productionProgress">
+
+                        </div>
+
+                        <div class="progress progress-xs" id="planProgress">
+                        </div>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+
+                                    @*<td style="text-align:right; border: 1px solid black; width: 5%;">0</td>*@
+                                    <td>0</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 3%;">5</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">10</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">15</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">20</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">25</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">30</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">35</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">40</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">45</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">50</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">55</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">60</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">65</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">70</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">75</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">80</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">85</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">90</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">95</td>
+                                    <td style="text-align:right; border: 1px solid none; width: 5%;">100</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -118,7 +168,6 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
-
         <div class="row">
             <div class="col-8">
                 <div class="card">
@@ -147,8 +196,7 @@
                                 <!-- small card -->
                                 <div class="small-box bg-warning">
                                     <div class="inner">
-                                        <h3>3</h3>
-
+                                        <div id="planCount"></div>
                                         <p>PLAN</p>
                                     </div>
                                     <div class="icon">
@@ -163,8 +211,7 @@
                                 <!-- small card -->
                                 <div class="small-box bg-success">
                                     <div class="inner">
-                                        <h3>2<sup style="font-size: 20px"></sup></h3>
-
+                                        <div id="actualCount"></div>
                                         <p>ACTUAL</p>
                                     </div>
                                     <div class="icon">
@@ -179,7 +226,7 @@
                                 <!-- small card -->
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h3>67<sup style="font-size: 20px"></sup>%</h3>
+                                        <div id="completeCount"></div>
 
                                         <p>COMPLETE</p>
                                     </div>
@@ -199,9 +246,7 @@
             </div>
             <!-- /.col -->
         </div>
-        @*<div class="row">
 
-        </div>*@
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -250,7 +295,7 @@
                         sorting: true,
                         paging: true,
                         autoload: true,
-                        pageSize: 4,
+                        pageSize: 3,
 
                         controller: {
                             loadData: function (filter) {
@@ -260,7 +305,7 @@
                                     data: "startDate=" + startDate + "&endDate=" + endDate + "&machineNo=" + machineNo + "&machineGroup=" + machineGroup + "&machineModel=" + machineModel + "&pdLine=" + prodLine,
                                     dataType: "JSON",
                                     success: function (response) {
-                                        console.log(response);
+                                        //console.log(response);
                                     }
                                 }).done(function (response) {
                                     //console.log(machineNo);
@@ -280,7 +325,67 @@
                     });
                     //console.log("test");
                 }
-                , 3000); // every 3 sec
+                , 2000); // every 3 sec
+        });
+
+        $(function () {
+            setInterval(
+                function () {
+                    var startDate = $("#requireDateFrom").val();
+                    var endDate = $("#requireDateTo").val();
+                    var machineNo = $("#searchMachineNo").val();
+                    var machineGroup = $("#searchMachineGroup").val();
+                    var machineModel = $("#inputModel").val();
+                    var prodLine = $("#prodLine").val();
+                    var url = "/Production/GetTaskSummaries";
+
+                    $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, machineModel: machineModel, pdLine: prodLine },
+                        function (data) {
+                            var plan = "<h3>" + data.planCount + "</h3>";
+                            var actual = "<h3>" + data.actualCount + "</h3>";
+                            var complated = "<h3>" + data.completeCount.toFixed(0) + " %</h3>";
+
+                            console.log(data.timeProgress);
+
+                            var timeProgress = $("<div>");
+                            timeProgress.addClass("progress-bar bg-primary progress-bar-striped");
+                            timeProgress.attr("role", "progressbar");
+                            timeProgress.attr("aria-valuenow", data.timeProgress);
+                            timeProgress.attr("aria-valuemin", 0);
+                            timeProgress.attr("aria-valuemax", 100);
+                            timeProgress.attr("style", "width: " + data.timeProgress + "%");
+
+                            var prodProgress = $("<div>");
+                            prodProgress.addClass("progress-bar bg-success progress-bar-striped");
+                            prodProgress.attr("role", "progressbar");
+                            prodProgress.attr("aria-valuenow", data.productionProgress);
+                            prodProgress.attr("aria-valuemin", 0);
+                            prodProgress.attr("aria-valuemax", 100);
+                            prodProgress.attr("style", "width: " + data.productionProgress + "%");
+
+                            var planProgress = $("<div>");
+                            planProgress.addClass("progress-bar bg-warning progress-bar-striped");
+                            planProgress.attr("role", "progressbar");
+                            planProgress.attr("aria-valuenow", data.planProgress);
+                            planProgress.attr("aria-valuemin", 0);
+                            planProgress.attr("aria-valuemax", 100);
+                            planProgress.attr("style", "width: " + data.planProgress + "%");
+                            
+                            //$.each(data, function (i, courselist) {
+                            //    vals += "<h3>" + data[i].PlanCount + "</h3>"
+                            //})
+                            $("#planCount").html(plan);
+                            $("#actualCount").html(actual);
+                            $("#completeCount").html(complated);
+                            $("#timeProgress").html(timeProgress);
+                            $("#productionProgress").html(prodProgress);
+                            $("#planProgress").html(planProgress);
+                            //console.log(data);
+                        })
+                    
+                    
+                        }
+                    , 2000);
         });
 
         $(function () {
@@ -310,7 +415,7 @@
                                     data: "startDate=" + startDate + "&endDate=" + endDate + "&machineNo=" + machineNo + "&machineGroup=" + machineGroup + "&machineModel=" + machineModel + "&pdLine=" + prodLine,
                                     dataType: "JSON",
                                     success: function (response) {
-                                        console.log(response);
+                                        //console.log(response);
                                     }
                                 }).done(function (response) {
                                     //console.log(machineNo);
@@ -332,7 +437,7 @@
                     });
                     //console.log("test");
                 }
-                , 3000); // every 3 sec
+                , 2000); // every 3 sec
         });
 
     </script>

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IndustryProduction.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200123143800_alter-column-name")]
-    partial class altercolumnname
+    [Migration("20200204160753_initail-db")]
+    partial class initaildb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,6 +225,9 @@ namespace IndustryProduction.Migrations
                     b.Property<int>("LastUpdatedBy")
                         .HasColumnType("int");
 
+                    b.Property<int>("MachineId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MachineNo")
                         .HasColumnType("nvarchar(50)");
 
@@ -326,7 +329,82 @@ namespace IndustryProduction.Migrations
 
                     b.HasKey("TaskId");
 
+                    b.HasIndex("JobEntityId");
+
+                    b.HasIndex("MachineId");
+
                     b.ToTable("JobTasks");
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.LocationModel", b =>
+                {
+                    b.Property<int>("LocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Attribute1")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Attribute2")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Attribute3")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Attribute4")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Attribute5")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("AvailableFlag")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ColumnNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CombindLocation")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<bool>("FillFlag")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<int>("LastUpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LevelNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ReserveFlag")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("TaskEntityTaskId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LocationId");
+
+                    b.HasIndex("TaskEntityTaskId");
+
+                    b.ToTable("ShelfLocations");
                 });
 
             modelBuilder.Entity("IndustryProduction.Models.MachineModel", b =>
@@ -437,6 +515,40 @@ namespace IndustryProduction.Migrations
                     b.HasKey("MachineId");
 
                     b.ToTable("Machines");
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.TaskLogsModel", b =>
+                {
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ActionName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ActionTimeStamp")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<int>("JobEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LogMessages")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TaskEntityTaskId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LogId");
+
+                    b.HasIndex("JobEntityId");
+
+                    b.HasIndex("TaskEntityTaskId");
+
+                    b.ToTable("TaskTransactionLogs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -572,6 +684,41 @@ namespace IndustryProduction.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.JobEntityTaskModel", b =>
+                {
+                    b.HasOne("IndustryProduction.Models.JobEntityModel", "JobEntity")
+                        .WithMany("JobTasks")
+                        .HasForeignKey("JobEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IndustryProduction.Models.MachineModel", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.LocationModel", b =>
+                {
+                    b.HasOne("IndustryProduction.Models.JobEntityTaskModel", "TaskEntity")
+                        .WithMany()
+                        .HasForeignKey("TaskEntityTaskId");
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.TaskLogsModel", b =>
+                {
+                    b.HasOne("IndustryProduction.Models.JobEntityModel", "JobEntity")
+                        .WithMany()
+                        .HasForeignKey("JobEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IndustryProduction.Models.JobEntityTaskModel", "TaskEntity")
+                        .WithMany("TaskLogs")
+                        .HasForeignKey("TaskEntityTaskId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

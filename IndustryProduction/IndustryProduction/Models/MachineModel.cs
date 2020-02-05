@@ -77,5 +77,12 @@ namespace IndustryProduction.Models
         public string ETimeLunchHr { get; set; }
         [Column(TypeName = "int")]
         public int MaintenaneTime { get; set; }
+        public int IndividualPlan
+        {
+            get
+            {
+                return (WorkingHr * 60);
+            }
+        }
     }
 }

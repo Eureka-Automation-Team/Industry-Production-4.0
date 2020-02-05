@@ -110,5 +110,6 @@ namespace IndustryProduction.Models
         [Column(TypeName = "int")]
         public int MachineId { get; set; }
         public MachineModel Machine { get; set; }
+        public List<TaskLogsModel> TaskLogs { get; set; }
     }
 }

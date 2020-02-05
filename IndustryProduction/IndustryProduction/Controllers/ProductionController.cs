@@ -57,7 +57,7 @@ namespace IndustryProduction.Controllers
                                         .ThenBy(o => o.StartDate)
                                         .ToList();
 
-            if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => x.MachineNoReady == machineNo).ToList();
+            if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => (string.IsNullOrEmpty(x.MachineNoReady) ? x.MachineNo : x.MachineNoReady) == machineNo).ToList();
             if (!string.IsNullOrEmpty(machineGroup)) result = result.Where(x => x.Machine.MacGroup == machineGroup).ToList();
             if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MacModel == machineModel).ToList();
             if (!string.IsNullOrEmpty(pdLine)) result = result.Where(x => x.Machine.ProductionLine == pdLine).ToList();
@@ -82,7 +82,7 @@ namespace IndustryProduction.Controllers
                                         .ThenBy(o => o.StartDate)
                                         .ToList();
 
-            if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => x.MachineNoReady == machineNo).ToList();
+            if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => (string.IsNullOrEmpty(x.MachineNoReady) ? x.MachineNo : x.MachineNoReady) == machineNo).ToList();
             if (!string.IsNullOrEmpty(machineGroup)) result = result.Where(x => x.Machine.MacGroup == machineGroup).ToList();
             if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MacModel == machineModel).ToList();
             if (!string.IsNullOrEmpty(pdLine)) result = result.Where(x => x.Machine.ProductionLine == pdLine).ToList();
@@ -92,6 +92,61 @@ namespace IndustryProduction.Controllers
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 Formatting = Formatting.Indented
             }));
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetTaskSummaries(string startDate, string endDate, string machineNo, string machineGroup, string machineModel, string pdLine)
+        {
+            _productionViewModel = new ProductionViewModel();
+
+            var machines = await _context.Machines.ToListAsync();
+            _productionViewModel.AvailableTime = machines.Sum(x => x.WorkingHr * 60);
+            _productionViewModel.AvailableTimeHr = string.Format("{0:00}:{1:00}", _productionViewModel.AvailableTime / 60, _productionViewModel.AvailableTime % 60);
+
+            DateTime date1 = string.IsNullOrEmpty(startDate) ? DateTime.Now.Date : Convert.ToDateTime(startDate).Date;
+            DateTime date2 = string.IsNullOrEmpty(endDate) ? DateTime.Now.Date : Convert.ToDateTime(endDate).Date;
+
+            var result = await _context.JobTasks.Include(c => c.JobEntity)
+                                        .Include(c => c.Machine)
+                                        .Where(x => x.DueDate.Date >= date1 && x.DueDate.Date <= date2 && x.ReleaseFlag)
+                                        .OrderBy(o => o.Priority)
+                                        .ThenBy(o => o.StartDate)
+                                        .ToListAsync();
+
+            if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => (string.IsNullOrEmpty(x.MachineNoReady) ? x.MachineNo : x.MachineNoReady) == machineNo).ToList();
+            if (!string.IsNullOrEmpty(machineGroup)) result = result.Where(x => x.Machine.MacGroup == machineGroup).ToList();
+            if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MacModel == machineModel).ToList();
+            if (!string.IsNullOrEmpty(pdLine)) result = result.Where(x => x.Machine.ProductionLine == pdLine).ToList();
+
+            //Summaries
+            _productionViewModel.PlanCount = result.Count();
+            _productionViewModel.ActualCount = result.Where(x => x.StartFlag).Count();
+
+            //Production Progress
+            double ts = 0;
+            foreach (var item in machines)
+            {
+                string iString = DateTime.Now.ToString("yyyy-MM-dd") + " " + item.MacStartTime.ToString("HH:mm");
+                DateTime oDate = DateTime.ParseExact(iString, "yyyy-MM-dd HH:mm", null);
+                double tsi;
+                tsi = DateTime.Now.Subtract(oDate).TotalMinutes;
+                ts = ts + tsi;
+            }
+
+            double prgT = 0;
+            foreach(var tsk in result.Where(x => x.StartFlag))
+            {
+                double prg = tsk.StandardTime;
+                prgT = prgT + prg;
+            }
+
+            var timeProgress = ts;
+            _productionViewModel.TimePlan = result.Sum(x => x.StandardTime);
+            _productionViewModel.TimeProgress = Convert.ToInt32((timeProgress / _productionViewModel.AvailableTime) * 100);
+            _productionViewModel.ProductionProgress = Convert.ToInt32((prgT / _productionViewModel.AvailableTime) * 100);
+            _productionViewModel.PlanProgress = Convert.ToInt32((_productionViewModel.TimePlan / _productionViewModel.AvailableTime) * 100); ;
+
+            return Json(_productionViewModel);
         }
 
         // GET: Production/Details/5

@@ -1,0 +1,846 @@
+﻿@model IndustryProduction.ViewModels.Production.ProductionViewModel
+
+@{
+    ViewData["Title"] = "OEE";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Header{
+    @*<link rel="stylesheet" href="~/plugins/Chart.js/Chart.min.css" />*@
+    <script src="~/plugins/jquery/jquery.slim.min.js"></script>
+    <script src="~/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/plugins/datepicker/datepicker.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <!-- jsGrid -->
+    <link rel="stylesheet" href="~/plugins/jsgrid/jsgrid.min.css">
+    <link rel="stylesheet" href="~/plugins/jsgrid/jsgrid-theme.min.css">
+}
+<h3></h3>
+<section class="content">
+    <div class="container-fluid">
+        <!-- row header for parameter-->
+        <div class="card card-outline card-success">
+            <div class="card-header">
+                <h3 class="card-title">OEE Dashboard filtering</h3>
+                <!-- .card-tools -->
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+                <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body" style="display: block;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Require Start date</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="requireDateFrom" value=@Model.StartDate>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>End date</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="requireDateTo" value=@Model.EndDate>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label> Machine</label>
+                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                            id="searchMachineNo">
+                                        <option selected="selected" data-select2-id="11">@ViewData["currentMachineNo"]</option>
+                                        <option data-select2-id="29">MC1</option>
+                                        <option data-select2-id="31">MC2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label> Machine Group</label>
+                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                            id="searchMachineGroup">
+                                        <option selected="selected">@ViewData["currentMachineGroup"]</option>
+                                        <option data-select2-id="29">CNC</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Production Line </label>
+                                    <input type="text" class="form-control is-valid" id="prodLine" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.row -->
+
+        <div class="col-12">
+            <div class="row">
+                <div class="col-2">
+                    <div class="card card-outline card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">OEE</h3>
+                            <!-- .card-tools -->
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <div class="card-body" style="display:inline;text-align: center;">
+                            <input id="oeeVal" type="text" class="knob"
+                                   value="100" data-skin="tron"
+                                   data-thickness="0.2"
+                                   data-anglearc="250"
+                                   data-angleoffset="-125"
+                                   data-width="120"
+                                   data-height="120"
+                                   data-fgcolor="#00a65a"
+                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
+                        </div>
+                    </div>
+                    <div class="card card-outline card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">AVIALABILITY</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <div class="card-body" style="display:inline;text-align: center;">
+                            <input id="avialabilityVal" type="text" class="knob"
+                                   value="60" data-skin="tron"
+                                   data-thickness="0.2"
+                                   data-anglearc="250"
+                                   data-angleoffset="-125"
+                                   data-width="120"
+                                   data-height="120"
+                                   data-fgcolor="#00a65a"
+                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
+                        </div>
+                    </div>
+                    <div class="card card-outline card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">PERFORMANCE</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <div class="card-body" style="display:inline;text-align: center;">
+                            <input id="performanceVal" type="text" class="knob"
+                                   value="80" data-skin="tron"
+                                   data-thickness="0.2"
+                                   data-anglearc="250"
+                                   data-angleoffset="-125"
+                                   data-width="120"
+                                   data-height="120"
+                                   data-fgcolor="#00a65a"
+                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
+                        </div>
+                    </div>
+                    <div class="card card-outline card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">QUALITY</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <div class="card-body" style="display:inline;text-align: center;">
+                            <input id="qualityVal" type="text" class="knob"
+                                   value="30" data-skin="tron"
+                                   data-thickness="0.2"
+                                   data-anglearc="250"
+                                   data-angleoffset="-125"
+                                   data-width="120"
+                                   data-height="120"
+                                   data-fgcolor="#00a65a"
+                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Planning Utilization</h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="barChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Operation Time Utilized</h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="utlSummaryChart" ></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Detail of Operation Time</h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chart-pie" style="min-height: 200px; height:100%; max-height: 250px; max-width: 100%;"></canvas>
+                                    @*<canvas id="chart-pie" class="chartjs-render-monitor"></canvas>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Individule Machine Planning</h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="barIndividualChart" style="height: 100%; width: 100%;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Time Instread Of Machine</h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title"></h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div id="jsGrid"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+</section>
+
+@section Scripts{
+    <script src="~/plugins/datepicker/datepicker.min.js"></script>
+
+    <!-- jsGrid -->
+    <script src="~/plugins/jsgrid/demos/db.js"></script>
+    <script src="~/plugins/jsgrid/jsgrid.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <script>
+        //Date range picker
+        $('#requireDateFrom').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
+        $('#requireDateTo').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
+        var p = [1];
+
+        var startDate = $("#requireDateFrom").val();
+        var endDate = $("#requireDateTo").val();
+        var machineNo = $("#searchMachineNo").val();
+        var machineGroup = $("#searchMachineGroup").val();
+        var prodLine = $("#prodLine").val();
+
+        // Declare for individaul machine plannine
+        var chartData = [];
+        PreIndividualMcChart();
+
+        // Declare for individaul machine plannine
+        var pieChartData = {
+                        labels: [
+                            'Machine',
+                            'Loading',
+                            'Unloading',
+                            'Maintenance',
+                            'Breakdown',
+                            'Setting',
+                        ],
+                        datasets: [
+                            {
+                                data: [10, 10, 10, 0, 0, 0],
+                                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+                            }
+                        ]
+                    };
+        PrePieChart();
+
+        // Declare for individaul machine plannine
+        var barChartData = [];
+        PreBarChart();
+
+        //---Initail Planning utilization
+        var ctxPlanUtl = $('#barChart').get(0).getContext('2d')
+        var barPlanningUtlChart = new Chart(ctxPlanUtl, {
+            // The type of chart we want to create
+            type: 'horizontalBar',
+            // The data for our dataset [0, 1]
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Available Time (%)',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [100]
+                    },
+                    {
+                        label: 'Planning Time (%)',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [0]
+                    },
+                ]
+            },
+
+            // Configureation options go here
+            options: {}
+        });
+
+        //---Initail Individual Machine Planning
+        var ctxInvdMachine = $('#barIndividualChart').get(0).getContext('2d')
+        var barIndividualMachineChart = new Chart(ctxInvdMachine, {
+            // The type of chart we want to create
+            type: 'horizontalBar',
+            // The data for our dataset [0, 1]
+            data: {
+                labels: [],
+                datasets: chartData
+            },
+
+            // Configureation options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            max: 100,
+                            min: 0,
+                            stepSize: 10
+                        }
+                    }]
+                }
+            }
+        });
+
+        //---Initail Utilization Summary
+        var ctxUtlSummary = $('#utlSummaryChart').get(0).getContext('2d')
+        var barUtlSummaryChart = new Chart(ctxUtlSummary, {
+            // The type of chart we want to create
+            type: 'horizontalBar',
+            // The data for our dataset [0, 1]
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Machine',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [0]
+                    },
+                    {
+                        label: 'Production Running',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [0]
+                    },
+                    {
+                        label: 'Available',
+                        backgroundColor: 'rgba(60,141,100,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [0]
+                    },
+                ]
+            },
+
+            // Configureation options go here
+            options: {}
+        });
+
+        //---Initail Detail of operation time
+        var pieOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+
+        var ctxPieChart = $('#chart-pie').get(0).getContext('2d')
+        var pieOperChart = new Chart(ctxPieChart, {
+            // The type of chart we want to create
+            type: 'pie',
+            // The data for our dataset [0, 1]
+            data: pieChartData,
+            // Configureation options go here
+            options: pieOptions
+        });
+
+        //---Initail Time Instread of Machine
+        var barChartOptions = {
+          responsive              : true,
+          maintainAspectRatio     : false,
+          datasetFill             : false
+        }
+        var barChartCanvas = $('#barChart2').get(0).getContext('2d')
+        var barChart2 = new Chart(barChartCanvas, {
+            // The type of chart we want to create
+            type: 'bar',
+            // The data for our dataset [0, 1]
+            data: barChartData,
+            // Configureation options go here
+            options: barChartOptions
+        });
+
+        $(function () {
+            setInterval(
+                function () {
+                    UpdatePlanUtlChart();
+                    UpdateIndividualMcChart();
+                    UpdateUtlSummaryChart();
+                    PrePieChart();
+                    //PreBarChart();
+                }
+                , 2000); // every 3 sec
+        });
+
+        function UpdatePlanUtlChart() {
+            GetParam();
+
+            var url = "/OEE/GetPlanningUtilization";
+            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                function (data) {
+                    p = [];
+                    p.push(data.PlanningTimePercentage);
+                    //console.log(data.PlanningTimePercentage);
+                    //console.log(p);
+                })
+            barPlanningUtlChart.data.datasets[1].data = p;
+            barPlanningUtlChart.update();
+        };
+
+        function PreIndividualMcChart() {
+            GetParam();
+
+            var url = "/OEE/GetPlanningUtilization";
+            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                function (data) {
+                    for (var item in data.ProcessUtilization) {
+                        var lbl = "";
+                        var datarow = [];
+
+                        lbl = data.ProcessUtilization[item].MachineName + " (%)";
+                        datarow.push(data.ProcessUtilization[item].PlanningTimePercentage);
+
+                        dataset = {};
+                        dataset.label = lbl;
+                        dataset.backgroundColor = getRandomColor();
+                        dataset.strokeColor = "rgba(200,200,200,1)";
+                        dataset.data = [0];
+                        chartData.push(dataset)
+                    }
+
+                    //console.log(chartData);
+                })
+        };
+
+        function PreBarChart() {
+            GetParam();
+
+            var url = "/OEE/GetPlanningUtilization";
+            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                function (data) {
+                    var xlabels = [];
+                    for (var item in data.ProcessUtilization) {
+                        xlabels.push(data.ProcessUtilization[item].MachineName)
+                    }
+
+                    var datarow1 = [];
+                    var datarow2 = [];
+                    var datarow3 = [];
+                    var datarow4 = [];
+                    var datarow5 = [];
+                    var datarow6 = [];
+                    var datarow7 = [];
+                    var datarow8 = [];
+                    var datarow9 = [];
+                    for (var item in data.ProcessUtilization) {
+                        datarow1.push(data.ProcessUtilization[item].PlanningTime)
+                        datarow2.push(data.ProcessUtilization[item].AvailableTime)
+                        datarow3.push(data.ProcessUtilization[item].ProductionRunTime)
+                        datarow4.push(data.ProcessUtilization[item].MachineTime)
+                        datarow5.push(data.ProcessUtilization[item].LoadingTime)
+                        datarow6.push(data.ProcessUtilization[item].UnLoadingTime)
+                        datarow7.push(data.ProcessUtilization[item].MaintenanceTime)
+                        datarow8.push(data.ProcessUtilization[item].BreakdownTime)
+                        datarow9.push(data.ProcessUtilization[item].SettingTime)
+                    }
+
+                    dataset1 = {};
+                    dataset1.label = "Planning Time";
+                    dataset1.backgroundColor = getRandomColor();
+                    dataset1.strokeColor = "rgba(200,200,200,1)";
+                    dataset1.data = datarow1;
+                    barChartData.push(dataset1)
+
+                    dataset2 = {};
+                    dataset2.label = "Available Time";
+                    dataset2.backgroundColor = getRandomColor();
+                    dataset2.strokeColor = "rgba(200,200,200,1)";
+                    dataset2.data = datarow2;
+                    barChartData.push(dataset2)
+
+                    dataset3 = {};
+                    dataset3.label = "Production running Time";
+                    dataset3.backgroundColor = getRandomColor();
+                    dataset3.strokeColor = "rgba(200,200,200,1)";
+                    dataset3.data = datarow3;
+                    barChartData.push(dataset3)
+
+                    dataset4 = {};
+                    dataset4.label = "Machine Time";
+                    dataset4.backgroundColor = getRandomColor();
+                    dataset4.strokeColor = "rgba(200,200,200,1)";
+                    dataset4.data = datarow4;
+                    barChartData.push(dataset4)
+
+                    dataset5 = {};
+                    dataset5.label = "Loading Time";
+                    dataset5.backgroundColor = getRandomColor();
+                    dataset5.strokeColor = "rgba(200,200,200,1)";
+                    dataset5.data = datarow5;
+                    barChartData.push(dataset5)
+
+                    dataset6 = {};
+                    dataset6.label = "Unloading Time";
+                    dataset6.backgroundColor = getRandomColor();
+                    dataset6.strokeColor = "rgba(200,200,200,1)";
+                    dataset6.data = datarow6;
+                    barChartData.push(dataset6)
+
+                    dataset7 = {};
+                    dataset7.label = "Maintenance Time";
+                    dataset7.backgroundColor = getRandomColor();
+                    dataset7.strokeColor = "rgba(200,200,200,1)";
+                    dataset7.data = datarow7;
+                    barChartData.push(dataset7)
+
+                    dataset8 = {};
+                    dataset8.label = "Breakdown Time";
+                    dataset8.backgroundColor = getRandomColor();
+                    dataset8.strokeColor = "rgba(200,200,200,1)";
+                    dataset8.data = datarow8;
+                    barChartData.push(dataset8)
+
+                    dataset9 = {};
+                    dataset9.label = "Setting Time";
+                    dataset9.backgroundColor = getRandomColor();
+                    dataset9.strokeColor = "rgba(200,200,200,1)";
+                    dataset9.data = datarow9;
+                    barChartData.push(dataset9)
+
+
+                    barChart2.data.labels = xlabels;
+                    barChart2.data.datasets = barChartData;
+
+                    barChart2.update();
+
+                    //console.log(barChartData);
+                })
+        };
+
+        function PrePieChart() {
+            GetParam();
+
+            var url = "/OEE/GetPlanningUtilization";
+            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                function (data) {
+                    var sumData = data.MachineTimeSummary + data.LoadingTimeSummary + data.UnLoadingTimeSummary
+                        + data.MaintenanceTimeSummary + data.BreakdownTimeSummary + data.SettingTimeSummary;
+
+                    pieOperChart.data.datasets[0].data[0] = data.MachineTimeSummary;
+                    pieOperChart.data.datasets[0].data[1] = data.LoadingTimeSummary;
+                    pieOperChart.data.datasets[0].data[2] = data.UnLoadingTimeSummary;
+                    pieOperChart.data.datasets[0].data[3] = data.MaintenanceTimeSummary;
+                    pieOperChart.data.datasets[0].data[4] = data.BreakdownTimeSummary;
+                    pieOperChart.data.datasets[0].data[5] = data.SettingTimeSummary;
+
+                    pieOperChart.data.labels[0] = "Machine " + ((data.MachineTimeSummary / sumData) * 100).toFixed(0) + "%";
+                    pieOperChart.data.labels[1] = "Loading " + ((data.LoadingTimeSummary / sumData) * 100).toFixed(0) + "%";
+                    pieOperChart.data.labels[2] = "Unloading " + ((data.UnLoadingTimeSummary / sumData) * 100).toFixed(0) + "%";
+                    pieOperChart.data.labels[3] = "Maintenance " + ((data.MaintenanceTimeSummary / sumData) * 100).toFixed(0) + "%";
+                    pieOperChart.data.labels[4] = "Breakdown " + ((data.BreakdownTimeSummary / sumData) * 100).toFixed(0) + "%";
+                    pieOperChart.data.labels[5] = "Setting " + ((data.SettingTimeSummary / sumData) * 100).toFixed(0) + "%";
+
+                    pieOperChart.update();
+                })            
+        };
+        
+        function UpdateUtlSummaryChart() {
+            GetParam();
+
+            var url = "/OEE/GetPlanningUtilization";
+            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                function (data) {
+                    var p1 = [];
+                    var p2 = [];
+                    var p3 = [];
+                    p1.push(data.MachineTimeSummary);
+                    p2.push(data.ProductionRunTimeSummary);
+                    p3.push(data.AvailableTimeSummary);
+                    barUtlSummaryChart.data.datasets[0].data = p1;
+                    barUtlSummaryChart.data.datasets[0].label = "Machine " + ((p1/p3) * 100).toFixed(0) + "%";
+                    barUtlSummaryChart.data.datasets[1].data = p2;
+                    barUtlSummaryChart.data.datasets[1].label = "Production " + ((p2/p3) * 100).toFixed(0) + "%";
+                    barUtlSummaryChart.data.datasets[2].data = p3;
+                    barUtlSummaryChart.data.datasets[2].label = "Available " + ((p3/p3) * 100).toFixed(0) + "%";
+                })
+
+            barUtlSummaryChart.update();
+        };
+
+        function UpdateIndividualMcChart() {
+            GetParam();
+            var chartData = [];
+            var url = "/OEE/GetPlanningUtilization";
+            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                function (data) {
+                    for (var item in data.ProcessUtilization) {
+                        var datarow = [];
+                        datarow.push(data.ProcessUtilization[item].PlanningTimePercentage);
+
+                        barIndividualMachineChart.data.datasets[item].data = datarow;
+                        barIndividualMachineChart.update();
+                    }
+
+                    //console.log(datarow);
+                })
+        };
+
+        function GetParam() {
+            startDate = $("#requireDateFrom").val();
+            endDate = $("#requireDateTo").val();
+            machineNo = $("#searchMachineNo").val();
+            machineGroup = $("#searchMachineGroup").val();
+            prodLine = $("#prodLine").val();
+        }
+
+        function getRandomColor() {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return "rgba(" + r + "," + g + "," + b + ", 1)";
+        }
+
+
+        $(function ($) {
+
+            $(".knob").knob({
+                change: function (value) {
+                    //console.log("change : " + value);
+                },
+                release: function (value) {
+                    //console.log(this.$.attr('value'));
+                    console.log("release : " + value);
+                },
+                cancel: function () {
+                    console.log("cancel : ", this);
+                },
+                /*format : function (value) {
+                    return value + '%';
+                },*/
+                draw: function () {
+
+                    // "tron" case
+                    if (this.$.data('skin') == 'tron') {
+
+                        this.cursorExt = 0.3;
+
+                        var a = this.arc(this.cv)  // Arc
+                            , pa                   // Previous arc
+                            , r = 1;
+
+                        this.g.lineWidth = this.lineWidth;
+
+                        if (this.o.displayPrevious) {
+                            pa = this.arc(this.v);
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.pColor;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                            this.g.stroke();
+                        }
+
+                        this.g.beginPath();
+                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                        this.g.stroke();
+
+                        this.g.lineWidth = 2;
+                        this.g.beginPath();
+                        this.g.strokeStyle = this.o.fgColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                        this.g.stroke();
+
+                        return false;
+                    }
+                }
+            });
+
+            // Example of infinite knob, iPod click wheel
+            var v, up = 0, down = 0, i = 0
+                , $idir = $("div.idir")
+                , $ival = $("div.ival")
+                , incr = function () { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+                , decr = function () { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+            $("input.infinite").knob(
+                {
+                    min: 0
+                    , max: 20
+                    , stopper: false
+                    , change: function () {
+                        if (v > this.cv) {
+                            if (up) {
+                                decr();
+                                up = 0;
+                            } else { up = 1; down = 0; }
+                        } else {
+                            if (v < this.cv) {
+                                if (down) {
+                                    incr();
+                                    down = 0;
+                                } else { down = 1; up = 0; }
+                            }
+                        }
+                        v = this.cv;
+                    }
+                });
+        });
+    </script>
+}
