@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace IndustryProduction.Models
 {
-    public class TaskLogsModel
+    public class TaskLogsModel : DomainObject
     {
-        [Key]
-        [Column(TypeName = "int")]
-        public int LogId { get; set; }
         [Column(TypeName = "int")]
         public int JobEntityId { get; set; }
         [Column(TypeName = "int")]

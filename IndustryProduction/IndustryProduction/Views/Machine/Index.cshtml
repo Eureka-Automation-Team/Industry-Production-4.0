@@ -1,0 +1,107 @@
+﻿@model IEnumerable<IndustryProduction.Models.Machine>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Header{
+    <link href="~/Themes/Beid/assets/plugins/dataTables/jquery.dataTables.css" rel="stylesheet" />
+}
+<div id="card" class="page-content-fl">
+    <div class="container-fluid p-0">
+        <div class="row panel-top-line">
+            <div class="col">
+                <div class="py-7">
+                    <div class="mb-7">
+                        <h4 class="hr-text-left">Machines</h4>
+                    </div>
+                    <div>
+                        <p>
+                            <a class="my-3 mx-1 btn btn-glass btn-warning" asp-action="Create">Create New</a>
+                        </p>
+                        <table id="myTable" class="display dataTable" style="width: 100%;" role="grid" aria-describedby="myTable_info">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MachineCode)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IpAddress)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PortNumber)
+                                    </th>
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.EnableFlag)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ActiveFlag)
+                                    </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MacGroup)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ProductionLine)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MachineModel)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IpAddress)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PortNumber)
+                                        </td>
+                                        @*<td>
+                                            @Html.DisplayFor(modelItem => item.EnableFlag)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ActiveFlag)
+                                        </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MacGroup)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductionLine)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineModel)
+                                        </td>
+                                        <td>
+                                            <a class="mx-1 btn btn-xs btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                <a class="mx-1 btn btn-xs btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+  @*  <script src="~/Themes/Beid/assets/plugins/dataTables/datatables.min.js"></script>*@
+    <script>
+
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+
+    </script>
+}

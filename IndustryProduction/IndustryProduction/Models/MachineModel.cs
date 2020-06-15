@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace IndustryProduction.Models
 {
-    public class MachineModel
+    public class MachineModel : DomainObject
     {
-        [Key]
-        [Column(TypeName = "int")]
-        public int MachineId { get; set; }
         [Column(TypeName = "nvarchar(50)")]
         public string MachineCode { get; set; }
         [Column(TypeName = "nvarchar(50)")]
@@ -84,5 +81,7 @@ namespace IndustryProduction.Models
                 return (WorkingHr * 60);
             }
         }
+
+        public string Remarks { get; set; }
     }
 }

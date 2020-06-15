@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace IndustryProduction.Models
 {
-    public class JobEntityModel
+    public class JobEntityModel : DomainObject
     {
-        [Key]
-        [Column(TypeName = "int")]
-        public int JobEntityId { get; set; }
         [Column(TypeName = "int")]
         public int OrganizationId { get; set; }
         [Column(TypeName = "datetime2(7)")]

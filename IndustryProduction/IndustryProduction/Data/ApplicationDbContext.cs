@@ -19,5 +19,10 @@ namespace IndustryProduction.Data
         public virtual DbSet<JobEntityModel> JobEntities { get; set; }
         public virtual DbSet<TaskLogsModel> TaskTransactionLogs { get; set; }
         public virtual DbSet<LocationModel> ShelfLocations { get; set; }
+        public virtual DbSet<Machine> MachinesMaster { get; set; }
+        public virtual DbSet<WorkingShift> WorkingShifts { get; set; }
+        public virtual DbSet<MachineWorking> MachineWorkings { get; set; }        
+        public virtual DbSet<CameraSettingModel> CameraSetting { get; set; }
+        public virtual DbSet<AlarmHistory> AlarmHistories { get; set; }
     }
 }

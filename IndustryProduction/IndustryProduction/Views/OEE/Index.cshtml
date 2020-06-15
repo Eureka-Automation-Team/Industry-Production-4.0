@@ -102,98 +102,63 @@
 
         <div class="col-12">
             <div class="row">
-                <div class="col-2">
-                    <div class="card card-outline card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">OEE</h3>
-                            <!-- .card-tools -->
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
+                <div class="col-12">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Detail of Operation Time</h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div id="gaugeOEE" style="width: 100%; height: auto;"></div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div id="gaugeAvialability" style="width: 100%; height: 100%; bottom:0px; vertical-align: bottom;"></div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div id="gaugePerformance" style="width: 100%; height: 100%; bottom:0px; vertical-align: bottom;"></div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div id="gaugeQuality" style="width: 100%; height: 100%; bottom:0px; vertical-align: bottom;"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- /.card-tools -->
-                        </div>
-                        <div class="card-body" style="display:inline;text-align: center;">
-                            <input id="oeeVal" type="text" class="knob"
-                                   value="100" data-skin="tron"
-                                   data-thickness="0.2"
-                                   data-anglearc="250"
-                                   data-angleoffset="-125"
-                                   data-width="120"
-                                   data-height="120"
-                                   data-fgcolor="#00a65a"
-                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
                         </div>
                     </div>
-                    <div class="card card-outline card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">AVIALABILITY</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
+
+                    <!-- /.row -->
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-outline card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title"></h3>
+                                    <!-- .card-tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div id="jsGrid"></div>
+                                </div>
                             </div>
-                            <!-- /.card-tools -->
-                        </div>
-                        <div class="card-body" style="display:inline;text-align: center;">
-                            <input id="avialabilityVal" type="text" class="knob"
-                                   value="60" data-skin="tron"
-                                   data-thickness="0.2"
-                                   data-anglearc="250"
-                                   data-angleoffset="-125"
-                                   data-width="120"
-                                   data-height="120"
-                                   data-fgcolor="#00a65a"
-                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
                         </div>
                     </div>
-                    <div class="card card-outline card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">PERFORMANCE</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                            <!-- /.card-tools -->
-                        </div>
-                        <div class="card-body" style="display:inline;text-align: center;">
-                            <input id="performanceVal" type="text" class="knob"
-                                   value="80" data-skin="tron"
-                                   data-thickness="0.2"
-                                   data-anglearc="250"
-                                   data-angleoffset="-125"
-                                   data-width="120"
-                                   data-height="120"
-                                   data-fgcolor="#00a65a"
-                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
-                        </div>
-                    </div>
-                    <div class="card card-outline card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">QUALITY</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                            <!-- /.card-tools -->
-                        </div>
-                        <div class="card-body" style="display:inline;text-align: center;">
-                            <input id="qualityVal" type="text" class="knob"
-                                   value="30" data-skin="tron"
-                                   data-thickness="0.2"
-                                   data-anglearc="250"
-                                   data-angleoffset="-125"
-                                   data-width="120"
-                                   data-height="120"
-                                   data-fgcolor="#00a65a"
-                                   style="width: 64px; height: 40px; position: absolute; vertical-align: middle; margin-top: 40px; margin-left: -92px; border: 0px; background: none; font: bold 24px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; -webkit-appearance: none;">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-10">
+                    <!-- /.row -->
                     <!-- row -->
                     <div class="row">
                         <div class="col-4">
@@ -229,7 +194,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="chart">
-                                        <canvas id="utlSummaryChart" ></canvas>
+                                        <canvas id="utlSummaryChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -296,27 +261,6 @@
                         </div>
                     </div>
                     <!-- /.row -->
-                    <!-- row -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-outline card-success">
-                                <div class="card-header">
-                                    <h3 class="card-title"></h3>
-                                    <!-- .card-tools -->
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <!-- /.card-tools -->
-                                </div>
-                                <div class="card-body">
-                                    <div id="jsGrid"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.row -->
                 </div>
             </div>
 
@@ -336,511 +280,610 @@
     <!-- ChartJS -->
     <script src="~/plugins/chart.js/Chart.min.js"></script>
     <script src="~/plugins/jquery-knob/jquery.knob.min.js"></script>
+
+    <!-- Gauge -->
+    <script src="~/plugins/justgage/raphael-2.1.4.min.js"></script>
+    <script src="~/plugins/justgage/justgage.js"></script>
     <script>
-        //Date range picker
-        $('#requireDateFrom').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
-        $('#requireDateTo').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
-        var p = [1];
+        $('document').ready(function () {
+            //Date range picker
+            $('#requireDateFrom').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
+            $('#requireDateTo').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: false, defaultDate: Date() });
+            var p = [1];
 
-        var startDate = $("#requireDateFrom").val();
-        var endDate = $("#requireDateTo").val();
-        var machineNo = $("#searchMachineNo").val();
-        var machineGroup = $("#searchMachineGroup").val();
-        var prodLine = $("#prodLine").val();
+            var startDate = $("#requireDateFrom").val();
+            var endDate = $("#requireDateTo").val();
+            var machineNo = $("#searchMachineNo").val();
+            var machineGroup = $("#searchMachineGroup").val();
+            var prodLine = $("#prodLine").val();
 
-        // Declare for individaul machine plannine
-        var chartData = [];
-        PreIndividualMcChart();
+            //Global data return
+            var glData = {};
+            GetData();
 
-        // Declare for individaul machine plannine
-        var pieChartData = {
-                        labels: [
-                            'Machine',
-                            'Loading',
-                            'Unloading',
-                            'Maintenance',
-                            'Breakdown',
-                            'Setting',
-                        ],
-                        datasets: [
-                            {
-                                data: [10, 10, 10, 0, 0, 0],
-                                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-                            }
-                        ]
-                    };
-        PrePieChart();
+            var gOEEGage = new JustGage({
+                id: "gaugeOEE",
+                value: 0,
+                min: 0,
+                max: 100,
+                decimals: 3,
+                title: "OEE",
+                relativeGaugeSize: true
+            });
 
-        // Declare for individaul machine plannine
-        var barChartData = [];
-        PreBarChart();
-
-        //---Initail Planning utilization
-        var ctxPlanUtl = $('#barChart').get(0).getContext('2d')
-        var barPlanningUtlChart = new Chart(ctxPlanUtl, {
-            // The type of chart we want to create
-            type: 'horizontalBar',
-            // The data for our dataset [0, 1]
-            data: {
-                labels: [],
-                datasets: [
-                    {
-                        label: 'Available Time (%)',
-                        backgroundColor: 'rgba(210, 214, 222, 1)',
-                        borderColor: 'rgba(210, 214, 222, 1)',
-                        pointRadius: false,
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: [100]
-                    },
-                    {
-                        label: 'Planning Time (%)',
-                        backgroundColor: 'rgba(60,141,188,0.9)',
-                        borderColor: 'rgba(60,141,188,0.8)',
-                        pointRadius: false,
-                        pointColor: '#3b8bba',
-                        pointStrokeColor: 'rgba(60,141,188,1)',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [0]
-                    },
-                ]
-            },
-
-            // Configureation options go here
-            options: {}
-        });
-
-        //---Initail Individual Machine Planning
-        var ctxInvdMachine = $('#barIndividualChart').get(0).getContext('2d')
-        var barIndividualMachineChart = new Chart(ctxInvdMachine, {
-            // The type of chart we want to create
-            type: 'horizontalBar',
-            // The data for our dataset [0, 1]
-            data: {
-                labels: [],
-                datasets: chartData
-            },
-
-            // Configureation options go here
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            max: 100,
-                            min: 0,
-                            stepSize: 10
-                        }
-                    }]
-                }
-            }
-        });
-
-        //---Initail Utilization Summary
-        var ctxUtlSummary = $('#utlSummaryChart').get(0).getContext('2d')
-        var barUtlSummaryChart = new Chart(ctxUtlSummary, {
-            // The type of chart we want to create
-            type: 'horizontalBar',
-            // The data for our dataset [0, 1]
-            data: {
-                labels: [],
-                datasets: [
-                    {
-                        label: 'Machine',
-                        backgroundColor: 'rgba(210, 214, 222, 1)',
-                        borderColor: 'rgba(210, 214, 222, 1)',
-                        pointRadius: false,
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: [0]
-                    },
-                    {
-                        label: 'Production Running',
-                        backgroundColor: 'rgba(60,141,188,0.9)',
-                        borderColor: 'rgba(60,141,188,0.8)',
-                        pointRadius: false,
-                        pointColor: '#3b8bba',
-                        pointStrokeColor: 'rgba(60,141,188,1)',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [0]
-                    },
-                    {
-                        label: 'Available',
-                        backgroundColor: 'rgba(60,141,100,0.9)',
-                        borderColor: 'rgba(60,141,188,0.8)',
-                        pointRadius: false,
-                        pointColor: '#3b8bba',
-                        pointStrokeColor: 'rgba(60,141,188,1)',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [0]
-                    },
-                ]
-            },
-
-            // Configureation options go here
-            options: {}
-        });
-
-        //---Initail Detail of operation time
-        var pieOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-
-        var ctxPieChart = $('#chart-pie').get(0).getContext('2d')
-        var pieOperChart = new Chart(ctxPieChart, {
-            // The type of chart we want to create
-            type: 'pie',
-            // The data for our dataset [0, 1]
-            data: pieChartData,
-            // Configureation options go here
-            options: pieOptions
-        });
-
-        //---Initail Time Instread of Machine
-        var barChartOptions = {
-          responsive              : true,
-          maintainAspectRatio     : false,
-          datasetFill             : false
-        }
-        var barChartCanvas = $('#barChart2').get(0).getContext('2d')
-        var barChart2 = new Chart(barChartCanvas, {
-            // The type of chart we want to create
-            type: 'bar',
-            // The data for our dataset [0, 1]
-            data: barChartData,
-            // Configureation options go here
-            options: barChartOptions
-        });
-
-        $(function () {
-            setInterval(
-                function () {
-                    UpdatePlanUtlChart();
-                    UpdateIndividualMcChart();
-                    UpdateUtlSummaryChart();
-                    PrePieChart();
-                    //PreBarChart();
-                }
-                , 2000); // every 3 sec
-        });
-
-        function UpdatePlanUtlChart() {
-            GetParam();
-
-            var url = "/OEE/GetPlanningUtilization";
-            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
-                function (data) {
-                    p = [];
-                    p.push(data.PlanningTimePercentage);
-                    //console.log(data.PlanningTimePercentage);
-                    //console.log(p);
-                })
-            barPlanningUtlChart.data.datasets[1].data = p;
-            barPlanningUtlChart.update();
-        };
-
-        function PreIndividualMcChart() {
-            GetParam();
-
-            var url = "/OEE/GetPlanningUtilization";
-            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
-                function (data) {
-                    for (var item in data.ProcessUtilization) {
-                        var lbl = "";
-                        var datarow = [];
-
-                        lbl = data.ProcessUtilization[item].MachineName + " (%)";
-                        datarow.push(data.ProcessUtilization[item].PlanningTimePercentage);
-
-                        dataset = {};
-                        dataset.label = lbl;
-                        dataset.backgroundColor = getRandomColor();
-                        dataset.strokeColor = "rgba(200,200,200,1)";
-                        dataset.data = [0];
-                        chartData.push(dataset)
-                    }
-
-                    //console.log(chartData);
-                })
-        };
-
-        function PreBarChart() {
-            GetParam();
-
-            var url = "/OEE/GetPlanningUtilization";
-            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
-                function (data) {
-                    var xlabels = [];
-                    for (var item in data.ProcessUtilization) {
-                        xlabels.push(data.ProcessUtilization[item].MachineName)
-                    }
-
-                    var datarow1 = [];
-                    var datarow2 = [];
-                    var datarow3 = [];
-                    var datarow4 = [];
-                    var datarow5 = [];
-                    var datarow6 = [];
-                    var datarow7 = [];
-                    var datarow8 = [];
-                    var datarow9 = [];
-                    for (var item in data.ProcessUtilization) {
-                        datarow1.push(data.ProcessUtilization[item].PlanningTime)
-                        datarow2.push(data.ProcessUtilization[item].AvailableTime)
-                        datarow3.push(data.ProcessUtilization[item].ProductionRunTime)
-                        datarow4.push(data.ProcessUtilization[item].MachineTime)
-                        datarow5.push(data.ProcessUtilization[item].LoadingTime)
-                        datarow6.push(data.ProcessUtilization[item].UnLoadingTime)
-                        datarow7.push(data.ProcessUtilization[item].MaintenanceTime)
-                        datarow8.push(data.ProcessUtilization[item].BreakdownTime)
-                        datarow9.push(data.ProcessUtilization[item].SettingTime)
-                    }
-
-                    dataset1 = {};
-                    dataset1.label = "Planning Time";
-                    dataset1.backgroundColor = getRandomColor();
-                    dataset1.strokeColor = "rgba(200,200,200,1)";
-                    dataset1.data = datarow1;
-                    barChartData.push(dataset1)
-
-                    dataset2 = {};
-                    dataset2.label = "Available Time";
-                    dataset2.backgroundColor = getRandomColor();
-                    dataset2.strokeColor = "rgba(200,200,200,1)";
-                    dataset2.data = datarow2;
-                    barChartData.push(dataset2)
-
-                    dataset3 = {};
-                    dataset3.label = "Production running Time";
-                    dataset3.backgroundColor = getRandomColor();
-                    dataset3.strokeColor = "rgba(200,200,200,1)";
-                    dataset3.data = datarow3;
-                    barChartData.push(dataset3)
-
-                    dataset4 = {};
-                    dataset4.label = "Machine Time";
-                    dataset4.backgroundColor = getRandomColor();
-                    dataset4.strokeColor = "rgba(200,200,200,1)";
-                    dataset4.data = datarow4;
-                    barChartData.push(dataset4)
-
-                    dataset5 = {};
-                    dataset5.label = "Loading Time";
-                    dataset5.backgroundColor = getRandomColor();
-                    dataset5.strokeColor = "rgba(200,200,200,1)";
-                    dataset5.data = datarow5;
-                    barChartData.push(dataset5)
-
-                    dataset6 = {};
-                    dataset6.label = "Unloading Time";
-                    dataset6.backgroundColor = getRandomColor();
-                    dataset6.strokeColor = "rgba(200,200,200,1)";
-                    dataset6.data = datarow6;
-                    barChartData.push(dataset6)
-
-                    dataset7 = {};
-                    dataset7.label = "Maintenance Time";
-                    dataset7.backgroundColor = getRandomColor();
-                    dataset7.strokeColor = "rgba(200,200,200,1)";
-                    dataset7.data = datarow7;
-                    barChartData.push(dataset7)
-
-                    dataset8 = {};
-                    dataset8.label = "Breakdown Time";
-                    dataset8.backgroundColor = getRandomColor();
-                    dataset8.strokeColor = "rgba(200,200,200,1)";
-                    dataset8.data = datarow8;
-                    barChartData.push(dataset8)
-
-                    dataset9 = {};
-                    dataset9.label = "Setting Time";
-                    dataset9.backgroundColor = getRandomColor();
-                    dataset9.strokeColor = "rgba(200,200,200,1)";
-                    dataset9.data = datarow9;
-                    barChartData.push(dataset9)
+            var gAvialabilityGage = new JustGage({
+                id: "gaugeAvialability",
+                value: 0,
+                min: 0,
+                max: 100,
+                decimals: 2,
+                title: "AVIALABILITY",
+                relativeGaugeSize: true
+            });
 
 
-                    barChart2.data.labels = xlabels;
-                    barChart2.data.datasets = barChartData;
-
-                    barChart2.update();
-
-                    //console.log(barChartData);
-                })
-        };
-
-        function PrePieChart() {
-            GetParam();
-
-            var url = "/OEE/GetPlanningUtilization";
-            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
-                function (data) {
-                    var sumData = data.MachineTimeSummary + data.LoadingTimeSummary + data.UnLoadingTimeSummary
-                        + data.MaintenanceTimeSummary + data.BreakdownTimeSummary + data.SettingTimeSummary;
-
-                    pieOperChart.data.datasets[0].data[0] = data.MachineTimeSummary;
-                    pieOperChart.data.datasets[0].data[1] = data.LoadingTimeSummary;
-                    pieOperChart.data.datasets[0].data[2] = data.UnLoadingTimeSummary;
-                    pieOperChart.data.datasets[0].data[3] = data.MaintenanceTimeSummary;
-                    pieOperChart.data.datasets[0].data[4] = data.BreakdownTimeSummary;
-                    pieOperChart.data.datasets[0].data[5] = data.SettingTimeSummary;
-
-                    pieOperChart.data.labels[0] = "Machine " + ((data.MachineTimeSummary / sumData) * 100).toFixed(0) + "%";
-                    pieOperChart.data.labels[1] = "Loading " + ((data.LoadingTimeSummary / sumData) * 100).toFixed(0) + "%";
-                    pieOperChart.data.labels[2] = "Unloading " + ((data.UnLoadingTimeSummary / sumData) * 100).toFixed(0) + "%";
-                    pieOperChart.data.labels[3] = "Maintenance " + ((data.MaintenanceTimeSummary / sumData) * 100).toFixed(0) + "%";
-                    pieOperChart.data.labels[4] = "Breakdown " + ((data.BreakdownTimeSummary / sumData) * 100).toFixed(0) + "%";
-                    pieOperChart.data.labels[5] = "Setting " + ((data.SettingTimeSummary / sumData) * 100).toFixed(0) + "%";
-
-                    pieOperChart.update();
-                })            
-        };
-        
-        function UpdateUtlSummaryChart() {
-            GetParam();
-
-            var url = "/OEE/GetPlanningUtilization";
-            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
-                function (data) {
-                    var p1 = [];
-                    var p2 = [];
-                    var p3 = [];
-                    p1.push(data.MachineTimeSummary);
-                    p2.push(data.ProductionRunTimeSummary);
-                    p3.push(data.AvailableTimeSummary);
-                    barUtlSummaryChart.data.datasets[0].data = p1;
-                    barUtlSummaryChart.data.datasets[0].label = "Machine " + ((p1/p3) * 100).toFixed(0) + "%";
-                    barUtlSummaryChart.data.datasets[1].data = p2;
-                    barUtlSummaryChart.data.datasets[1].label = "Production " + ((p2/p3) * 100).toFixed(0) + "%";
-                    barUtlSummaryChart.data.datasets[2].data = p3;
-                    barUtlSummaryChart.data.datasets[2].label = "Available " + ((p3/p3) * 100).toFixed(0) + "%";
-                })
-
-            barUtlSummaryChart.update();
-        };
-
-        function UpdateIndividualMcChart() {
-            GetParam();
+            var gQualityGage = new JustGage({
+                id: "gaugeQuality",
+                value: 0,
+                min: 0,
+                max: 100,
+                decimals: 2,
+                title: "QUALITY",
+                relativeGaugeSize: true
+            });
+            //
+            var gPerformanceGage = new JustGage({
+                id: "gaugePerformance",
+                value: 0,
+                min: 0,
+                max: 100,
+                decimals: 2,
+                title: "PERFORMANCE",
+                relativeGaugeSize: true
+            });
+            
+            // Declare for individaul machine plannine
             var chartData = [];
-            var url = "/OEE/GetPlanningUtilization";
-            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
-                function (data) {
-                    for (var item in data.ProcessUtilization) {
-                        var datarow = [];
-                        datarow.push(data.ProcessUtilization[item].PlanningTimePercentage);
+            PreIndividualMcChart();
 
-                        barIndividualMachineChart.data.datasets[item].data = datarow;
-                        barIndividualMachineChart.update();
+            // Declare for individaul machine plannine
+            var pieChartData = {
+                labels: [
+                    'Machine',
+                    'Loading',
+                    'Unloading',
+                    'Maintenance',
+                    'Breakdown',
+                    'Setting',
+                ],
+                datasets: [
+                    {
+                        data: [10, 10, 10, 0, 0, 0],
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
                     }
+                ]
+            };
+            //PrePieChart();
 
-                    //console.log(datarow);
-                })
-        };
-
-        function GetParam() {
-            startDate = $("#requireDateFrom").val();
-            endDate = $("#requireDateTo").val();
-            machineNo = $("#searchMachineNo").val();
-            machineGroup = $("#searchMachineGroup").val();
-            prodLine = $("#prodLine").val();
-        }
-
-        function getRandomColor() {
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            return "rgba(" + r + "," + g + "," + b + ", 1)";
-        }
+            // Declare for individaul machine plannine
+            var barChartData = [];
+            var xlabels = [];
+            PreBarChart();
+            var areaBarChartData = { xlabels, barChartData };
 
 
-        $(function ($) {
-
-            $(".knob").knob({
-                change: function (value) {
-                    //console.log("change : " + value);
+            ////---Initail Planning utilization
+            var ctxPlanUtl = $('#barChart').get(0).getContext('2d')
+            var barPlanningUtlChart = new Chart(ctxPlanUtl, {
+                // The type of chart we want to create
+                type: 'horizontalBar',
+                // The data for our dataset [0, 1]
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Available Time 100%',
+                            backgroundColor: 'rgba(210, 214, 222, 1)',
+                            borderColor: 'rgba(210, 214, 222, 1)',
+                            pointRadius: false,
+                            pointColor: 'rgba(210, 214, 222, 1)',
+                            pointStrokeColor: '#c1c7d1',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(220,220,220,1)',
+                            data: [100]
+                        },
+                        {
+                            label: 'Planning Time 0%',
+                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            pointRadius: false,
+                            pointColor: '#3b8bba',
+                            pointStrokeColor: 'rgba(60,141,188,1)',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(60,141,188,1)',
+                            data: [0]
+                        },
+                    ]
                 },
-                release: function (value) {
-                    //console.log(this.$.attr('value'));
-                    console.log("release : " + value);
+
+                // Configureation options go here
+                options: {}
+            });
+
+            //---Initail Individual Machine Planning
+            var ctxInvdMachine = $('#barIndividualChart').get(0).getContext('2d')
+            var barIndividualMachineChart = new Chart(ctxInvdMachine, {
+                // The type of chart we want to create
+                type: 'horizontalBar',
+                // The data for our dataset [0, 1]
+                data: {
+                    labels: [],
+                    datasets: chartData
                 },
-                cancel: function () {
-                    console.log("cancel : ", this);
-                },
-                /*format : function (value) {
-                    return value + '%';
-                },*/
-                draw: function () {
 
-                    // "tron" case
-                    if (this.$.data('skin') == 'tron') {
-
-                        this.cursorExt = 0.3;
-
-                        var a = this.arc(this.cv)  // Arc
-                            , pa                   // Previous arc
-                            , r = 1;
-
-                        this.g.lineWidth = this.lineWidth;
-
-                        if (this.o.displayPrevious) {
-                            pa = this.arc(this.v);
-                            this.g.beginPath();
-                            this.g.strokeStyle = this.pColor;
-                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
-                            this.g.stroke();
-                        }
-
-                        this.g.beginPath();
-                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
-                        this.g.stroke();
-
-                        this.g.lineWidth = 2;
-                        this.g.beginPath();
-                        this.g.strokeStyle = this.o.fgColor;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                        this.g.stroke();
-
-                        return false;
+                // Configureation options go here
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                max: 100,
+                                min: 0,
+                                stepSize: 10
+                            }
+                        }]
                     }
                 }
             });
 
-            // Example of infinite knob, iPod click wheel
-            var v, up = 0, down = 0, i = 0
-                , $idir = $("div.idir")
-                , $ival = $("div.ival")
-                , incr = function () { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
-                , decr = function () { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
-            $("input.infinite").knob(
-                {
-                    min: 0
-                    , max: 20
-                    , stopper: false
-                    , change: function () {
-                        if (v > this.cv) {
-                            if (up) {
-                                decr();
-                                up = 0;
-                            } else { up = 1; down = 0; }
-                        } else {
-                            if (v < this.cv) {
-                                if (down) {
-                                    incr();
-                                    down = 0;
-                                } else { down = 1; up = 0; }
-                            }
+            //---Initail Utilization Summary
+            var ctxUtlSummary = $('#utlSummaryChart').get(0).getContext('2d')
+            var barUtlSummaryChart = new Chart(ctxUtlSummary, {
+                // The type of chart we want to create
+                type: 'horizontalBar',
+                // The data for our dataset [0, 1]
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Machine',
+                            backgroundColor: 'rgba(210, 214, 222, 1)',
+                            borderColor: 'rgba(210, 214, 222, 1)',
+                            pointRadius: false,
+                            pointColor: 'rgba(210, 214, 222, 1)',
+                            pointStrokeColor: '#c1c7d1',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(220,220,220,1)',
+                            data: [0]
+                        },
+                        {
+                            label: 'Production Running',
+                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            pointRadius: false,
+                            pointColor: '#3b8bba',
+                            pointStrokeColor: 'rgba(60,141,188,1)',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(60,141,188,1)',
+                            data: [0]
+                        },
+                        {
+                            label: 'Available',
+                            backgroundColor: 'rgba(60,141,100,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            pointRadius: false,
+                            pointColor: '#3b8bba',
+                            pointStrokeColor: 'rgba(60,141,188,1)',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(60,141,188,1)',
+                            data: [0]
+                        },
+                    ]
+                },
+
+                // Configureation options go here
+                options: {}
+            });
+
+            //---Initail Detail of operation time
+            var pieOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            var ctxPieChart = $('#chart-pie').get(0).getContext('2d')
+            var pieOperChart = new Chart(ctxPieChart, {
+                // The type of chart we want to create
+                type: 'pie',
+                // The data for our dataset [0, 1]
+                data: pieChartData,
+                // Configureation options go here
+                options: pieOptions
+            });
+
+            //---Initail Time Instread of Machine
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
+            }
+            var barChartCanvas = $('#barChart2').get(0).getContext('2d')
+            var barChart2 = new Chart(barChartCanvas, {
+                // The type of chart we want to create
+                type: 'bar',
+                // The data for our dataset [0, 1]
+                data: areaBarChartData,
+                // Configureation options go here
+                options: barChartOptions
+            });
+
+            async function GetData() {
+                GetParam();
+                var url = "/OEE/GetPlanningUtilization";
+                $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                    function (data) {
+                        console.log(data);
+                        glData = data;
+                    })
+
+            }
+
+            ///Pre Data
+            function PreIndividualMcChart() {
+                GetParam();
+                var url = "/OEE/GetPlanningUtilization";
+                $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                    function (data) {
+                        //var json = JSON.parse(data);
+                        for (var item in data.ProcessUtilization) {
+                            var lbl = "";
+                            var datarow = [];
+
+                            lbl = data.ProcessUtilization[item].MachineName + " 0%";
+                            datarow.push(data.ProcessUtilization[item].PlanningTimePercentage);
+
+                            dataset = {};
+                            dataset.label = lbl;
+                            dataset.backgroundColor = getRandomColor();
+                            dataset.strokeColor = "rgba(200,200,200,1)";
+                            dataset.data = [0];
+                            chartData.push(dataset)
                         }
-                        v = this.cv;
+
+                        //console.log(chartData);
+                    })
+            };
+
+            function PreBarChart() {
+                GetParam();
+
+                var url = "/OEE/GetPlanningUtilization";
+                $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                    function (data) {
+                        barChartData = [];
+                        xlabels = [];
+                        for (var item in data.ProcessUtilization) {
+                            xlabels.push(data.ProcessUtilization[item].MachineName)
+                        }
+
+                        var datarow1 = [];
+                        var datarow2 = [];
+                        var datarow3 = [];
+                        var datarow4 = [];
+                        var datarow5 = [];
+                        var datarow6 = [];
+                        var datarow7 = [];
+                        var datarow8 = [];
+                        var datarow9 = [];
+                        for (var item in data.ProcessUtilization) {
+                            datarow1.push(data.ProcessUtilization[item].PlanningTime)
+                            datarow2.push(data.ProcessUtilization[item].AvailableTime)
+                            datarow3.push(data.ProcessUtilization[item].ProductionRunTime)
+                            datarow4.push(data.ProcessUtilization[item].MachineTime)
+                            datarow5.push(data.ProcessUtilization[item].LoadingTime)
+                            datarow6.push(data.ProcessUtilization[item].UnLoadingTime)
+                            datarow7.push(data.ProcessUtilization[item].MaintenanceTime)
+                            datarow8.push(data.ProcessUtilization[item].BreakdownTime)
+                            datarow9.push(data.ProcessUtilization[item].SettingTime)
+                        }
+
+                        dataset1 = {};
+                        dataset1.label = "Planning Time";
+                        dataset1.backgroundColor = getRandomColor();
+                        dataset1.strokeColor = "rgba(200,200,200,1)";
+                        dataset1.data = datarow1;
+                        barChartData.push(dataset1)
+
+                        dataset2 = {};
+                        dataset2.label = "Available Time";
+                        dataset2.backgroundColor = getRandomColor();
+                        dataset2.strokeColor = "rgba(200,200,200,1)";
+                        dataset2.data = datarow2;
+                        barChartData.push(dataset2)
+
+                        dataset3 = {};
+                        dataset3.label = "Production running Time";
+                        dataset3.backgroundColor = getRandomColor();
+                        dataset3.strokeColor = "rgba(200,200,200,1)";
+                        dataset3.data = datarow3;
+                        barChartData.push(dataset3)
+
+                        dataset4 = {};
+                        dataset4.label = "Machine Time";
+                        dataset4.backgroundColor = getRandomColor();
+                        dataset4.strokeColor = "rgba(200,200,200,1)";
+                        dataset4.data = datarow4;
+                        barChartData.push(dataset4)
+
+                        dataset5 = {};
+                        dataset5.label = "Loading Time";
+                        dataset5.backgroundColor = getRandomColor();
+                        dataset5.strokeColor = "rgba(200,200,200,1)";
+                        dataset5.data = datarow5;
+                        barChartData.push(dataset5)
+
+                        dataset6 = {};
+                        dataset6.label = "Unloading Time";
+                        dataset6.backgroundColor = getRandomColor();
+                        dataset6.strokeColor = "rgba(200,200,200,1)";
+                        dataset6.data = datarow6;
+                        barChartData.push(dataset6)
+
+                        dataset7 = {};
+                        dataset7.label = "Maintenance Time";
+                        dataset7.backgroundColor = getRandomColor();
+                        dataset7.strokeColor = "rgba(200,200,200,1)";
+                        dataset7.data = datarow7;
+                        barChartData.push(dataset7)
+
+                        dataset8 = {};
+                        dataset8.label = "Breakdown Time";
+                        dataset8.backgroundColor = getRandomColor();
+                        dataset8.strokeColor = "rgba(200,200,200,1)";
+                        dataset8.data = datarow8;
+                        barChartData.push(dataset8)
+
+                        dataset9 = {};
+                        dataset9.label = "Setting Time";
+                        dataset9.backgroundColor = getRandomColor();
+                        dataset9.strokeColor = "rgba(200,200,200,1)";
+                        dataset9.data = datarow9;
+                        barChartData.push(dataset9)
+
+
+                        barChart2.data.labels = xlabels;
+                        barChart2.data.datasets = barChartData;
+
+                        //barChart2.update();
+
+                        //console.log(barChartData);
+                    })
+            };
+
+
+            setInterval(
+                function () {
+                    GetData();
+                    UpdatePlanUtlChart(glData);
+                    UpdateIndividualMcChart(glData);
+                    UpdateUtlSummaryChart(glData);
+                    UpdatePieChart(glData);
+                    UpdateBarChart(glData);
+                    UpdateGage(glData);
+                }
+                , 3000); // every 2 sec
+
+            function UpdatePlanUtlChart(data) {
+                p = [];
+                p.push(data.PlanningTimePercentage);
+
+                barPlanningUtlChart.data.datasets[1].label = 'Planning Time ' + data.PlanningTimePercentage + '%';
+                barPlanningUtlChart.data.datasets[1].data = p;
+                barPlanningUtlChart.update();
+            };
+
+            function UpdateIndividualMcChart(data) {
+                for (var item in data.ProcessUtilization) {
+                    var datarow = [];
+                    datarow.push(data.ProcessUtilization[item].PlanningTimePercentage);
+
+                    barIndividualMachineChart.data.datasets[item].label = data.ProcessUtilization[item].MachineName + " " + data.ProcessUtilization[item].PlanningTimePercentage + "%";
+                    barIndividualMachineChart.data.datasets[item].data = datarow;
+                    barIndividualMachineChart.update();
+                }
+            };
+
+            function UpdateUtlSummaryChart(data) {
+                var p1 = [];
+                var p2 = [];
+                var p3 = [];
+                p1.push(data.MachineTimeSummaryHr);
+                p2.push(data.ProductionRunTimeSummaryHr);
+                p3.push(data.AvailableTimeSummaryHr);
+                barUtlSummaryChart.data.datasets[0].data = p1;
+                barUtlSummaryChart.data.datasets[0].label = "Machine " + ((p1 / p3) * 100).toFixed(0) + "%";
+                barUtlSummaryChart.data.datasets[1].data = p2;
+                barUtlSummaryChart.data.datasets[1].label = "Production " + ((p2 / p3) * 100).toFixed(0) + "%";
+                barUtlSummaryChart.data.datasets[2].data = p3;
+                barUtlSummaryChart.data.datasets[2].label = "Available " + ((p3 / p3) * 100).toFixed(0) + "%";
+
+                barUtlSummaryChart.update();
+            };
+
+            function UpdatePieChart(data) {
+                var sumData = data.MachineTimeSummaryHr + data.LoadingTimeSummaryHr + data.UnLoadingTimeSummaryHr
+                    + data.MaintenanceTimeSummaryHr + data.BreakdownTimeSummaryHr + data.SettingTimeSummaryHr;
+
+                pieOperChart.data.datasets[0].data[0] = data.MachineTimeSummaryHr;
+                pieOperChart.data.datasets[0].data[1] = data.LoadingTimeSummaryHr;
+                pieOperChart.data.datasets[0].data[2] = data.UnLoadingTimeSummaryHr;
+                pieOperChart.data.datasets[0].data[3] = data.MaintenanceTimeSummaryHr;
+                pieOperChart.data.datasets[0].data[4] = data.BreakdownTimeSummaryHr;
+                pieOperChart.data.datasets[0].data[5] = data.SettingTimeSummaryHr;
+
+                pieOperChart.data.labels[0] = "Machine " + ((data.MachineTimeSummaryHr / sumData) * 100).toFixed(0) + "%";
+                pieOperChart.data.labels[1] = "Loading " + ((data.LoadingTimeSummaryHr / sumData) * 100).toFixed(0) + "%";
+                pieOperChart.data.labels[2] = "Unloading " + ((data.UnLoadingTimeSummaryHr / sumData) * 100).toFixed(0) + "%";
+                pieOperChart.data.labels[3] = "Maintenance " + ((data.MaintenanceTimeSummaryHr / sumData) * 100).toFixed(0) + "%";
+                pieOperChart.data.labels[4] = "Breakdown " + ((data.BreakdownTimeSummaryHr / sumData) * 100).toFixed(0) + "%";
+                pieOperChart.data.labels[5] = "Setting " + ((data.SettingTimeSummaryHr / sumData) * 100).toFixed(0) + "%";
+
+                pieOperChart.update();
+            };
+
+            function UpdateBarChart(data) {
+
+                for (var mac in data.ProcessUtilization) {
+                    barChart2.data.datasets[0].data[mac] = data.ProcessUtilization[mac].PlanningTimeHr; //PlanningTime
+                    barChart2.data.datasets[1].data[mac] = data.ProcessUtilization[mac].AvailableTimeHr; //AvailableTime
+                    barChart2.data.datasets[2].data[mac] = data.ProcessUtilization[mac].ProductionRunTimeHr; //ProductionRunTime
+                    barChart2.data.datasets[3].data[mac] = data.ProcessUtilization[mac].MachineTimeHr; //MachineTime
+                    barChart2.data.datasets[4].data[mac] = data.ProcessUtilization[mac].LoadingTimeHr; //LoadingTime
+                    barChart2.data.datasets[5].data[mac] = data.ProcessUtilization[mac].UnLoadingTimeHr; //UnLoadingTime
+                    barChart2.data.datasets[6].data[mac] = data.ProcessUtilization[mac].MaintenanceTimeHr; //MaintenanceTime
+                    barChart2.data.datasets[7].data[mac] = data.ProcessUtilization[mac].BreakdownTimeHr; //BreakdownTime
+                    barChart2.data.datasets[8].data[mac] = data.ProcessUtilization[mac].SettingTimeHr; //SettingTime
+                }
+                barChart2.update();
+            };
+
+            function UpdateGage(data) {
+                gOEEGage.refresh(data.OEESummary);
+                gQualityGage.refresh(data.QualitySummary);
+                gPerformanceGage.refresh(data.ProductivitySummary);
+                gAvialabilityGage.refresh(data.ProcessUtilizationSummary);
+            };
+
+            function GetParam() {
+                startDate = $("#requireDateFrom").val();
+                endDate = $("#requireDateTo").val();
+                machineNo = $("#searchMachineNo").val();
+                machineGroup = $("#searchMachineGroup").val();
+                prodLine = $("#prodLine").val();
+            }
+
+            function getRandomColor() {
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+                return "rgba(" + r + "," + g + "," + b + ", 1)";
+            }
+
+            $(function ($) {
+
+                $(".knob").knob({
+                    change: function (value) {
+                        //console.log("change : " + value);
+                    },
+                    release: function (value) {
+                        //console.log(this.$.attr('value'));
+                        console.log("release : " + value);
+                    },
+                    cancel: function () {
+                        console.log("cancel : ", this);
+                    },
+                    /*format : function (value) {
+                        return value + '%';
+                    },*/
+                    draw: function () {
+
+                        // "tron" case
+                        if (this.$.data('skin') == 'tron') {
+
+                            this.cursorExt = 0.3;
+
+                            var a = this.arc(this.cv)  // Arc
+                                , pa                   // Previous arc
+                                , r = 1;
+
+                            this.g.lineWidth = this.lineWidth;
+
+                            if (this.o.displayPrevious) {
+                                pa = this.arc(this.v);
+                                this.g.beginPath();
+                                this.g.strokeStyle = this.pColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                                this.g.stroke();
+                            }
+
+                            this.g.beginPath();
+                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                            this.g.stroke();
+
+                            this.g.lineWidth = 2;
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.o.fgColor;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                            this.g.stroke();
+
+                            return false;
+                        }
                     }
                 });
+
+                // Example of infinite knob, iPod click wheel
+                var v, up = 0, down = 0, i = 0
+                    , $idir = $("div.idir")
+                    , $ival = $("div.ival")
+                    , incr = function () { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+                    , decr = function () { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+                $("input.infinite").knob(
+                    {
+                        min: 0
+                        , max: 20
+                        , stopper: false
+                        , change: function () {
+                            if (v > this.cv) {
+                                if (up) {
+                                    decr();
+                                    up = 0;
+                                } else { up = 1; down = 0; }
+                            } else {
+                                if (v < this.cv) {
+                                    if (down) {
+                                        incr();
+                                        down = 0;
+                                    } else { down = 1; up = 0; }
+                                }
+                            }
+                            v = this.cv;
+                        }
+                    });
+            });
+
+            setInterval(
+                function () {
+                    $("#jsGrid").jsGrid({
+                        height: "auto",
+                        width: "100%",
+                        
+                        sorting: true,
+                        paging: true,
+                        autoload: true,
+                        pageSize: 4,
+
+                        data: glData.Productivities,
+
+                        fields: [
+                            { name: "MachineName", type: "text", align: "center", title: "Machine" },
+                            { name: "AvailableTimeHr", type: "text", align: "center", title: "Available Time" },
+                            { name: "PlanningTimeHr", type: "text", align: "center", title: "Planning Time" },
+                            { name: "ProductionRunTimeHr", type: "text", align: "center", title: "Production Time" },
+                            { name: "PlanningTimePercentage", type: "text", align: "center", title: "Plan Utl." },
+                            //{ name: "JobEntity.PrimaryItemCode", type: "text", align: "center", title: "Part Number" },
+                            { name: "ProcessUtilization", type: "text", align: "center", title: "Process Utl." },
+                            { name: "ActualQuantity", type: "text", align: "center", title: "Actual" },
+                            { name: "PlanQuantity", type: "text", align: "center", title: "Plan" },
+                            { name: "Productivity", type: "text", align: "center", title: "Performance" },
+                            { name: "Quality", type: "text", align: "center", title: "Quality" },
+                            { name: "OEE", type: "text", align: "center", title: "OEE" },
+                            { name: "PassQuantity", type: "text", align: "center", title: "Pass" },
+                            { name: "NgQuantity", type: "text", align: "center", title: "NG" },
+                            { name: "HoldQuantity", type: "text", align: "center", title: "Hold" }
+                        ]
+                    });
+                    //console.log("test");
+                }
+                , 2000);
         });
     </script>
 }

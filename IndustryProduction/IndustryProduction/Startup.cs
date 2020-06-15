@@ -16,6 +16,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using IndustryProduction.Services;
 
 namespace IndustryProduction
 {
@@ -47,8 +48,9 @@ namespace IndustryProduction
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            //services.AddMvc();
-        
+            services.AddMvc();
+            services.AddScoped<IVideoStreamService, VideoStreamService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,153 @@
+﻿/*body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: auto;
+    padding-top: 40px;
+    position: relative;
+}*/
+
+/*button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}*/
+
+.bullet {
+    font: 0px sans-serif;
+}
+
+    .bullet .marker {
+        stroke: #2af270;
+        stroke-width: 4px;
+    }
+
+    .bullet .tick line {
+        stroke: #666;
+        stroke-width: .5px;
+    }
+
+    .bullet .range.s0 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s1 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s2 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s3 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s4 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s5 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s6 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s7 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s8 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s9 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s10 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s11 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s12 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s13 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s14 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s15 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s16 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s17 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s18 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s19 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s20 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s21 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s22 {
+        fill: #27263b;
+    }
+
+    .bullet .range.s23 {
+        fill: #ff0000;
+    }
+
+    .bullet .range.s24 {
+        fill: #27263b;
+    }
+
+    .bullet .measure.s0 {
+        fill: #FFC52C;
+    }
+
+    .bullet .measure.s1 {
+        fill: #2C7CFF;
+    }
+
+    .bullet .measure.s2 {
+        fill: #27263b;
+    }
+
+    .bullet .title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .bullet .subtitle {
+        fill: #999;
+    }
+
+    .bullet .measure-label tspan {
+        fill: white;
+        font-weight: bold;
+        font-size: 18px;
+    }

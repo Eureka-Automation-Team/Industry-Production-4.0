@@ -99,9 +99,83 @@ namespace IndustryProduction.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("IndustryProduction.Models.AlarmHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("ActiveFlag")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("AlarmDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AlarmNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AxisName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LastUpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MachineId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MachineId");
+
+                    b.ToTable("AlarmHistories");
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.CameraSettingModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CameraCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CameraUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Port")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CameraSetting");
+                });
+
             modelBuilder.Entity("IndustryProduction.Models.JobEntityModel", b =>
                 {
-                    b.Property<int>("JobEntityId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -178,14 +252,14 @@ namespace IndustryProduction.Migrations
                     b.Property<string>("Segment5")
                         .HasColumnType("nvarchar(250)");
 
-                    b.HasKey("JobEntityId");
+                    b.HasKey("Id");
 
                     b.ToTable("JobEntities");
                 });
 
             modelBuilder.Entity("IndustryProduction.Models.JobEntityTaskModel", b =>
                 {
-                    b.Property<int>("TaskId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -325,7 +399,7 @@ namespace IndustryProduction.Migrations
                     b.Property<bool>("UploadNcfileFlag")
                         .HasColumnType("bit");
 
-                    b.HasKey("TaskId");
+                    b.HasKey("Id");
 
                     b.HasIndex("JobEntityId");
 
@@ -336,7 +410,7 @@ namespace IndustryProduction.Migrations
 
             modelBuilder.Entity("IndustryProduction.Models.LocationModel", b =>
                 {
-                    b.Property<int>("LocationId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -392,22 +466,79 @@ namespace IndustryProduction.Migrations
                     b.Property<bool>("ReserveFlag")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("TaskEntityTaskId")
+                    b.Property<int?>("TaskEntityId")
                         .HasColumnType("int");
 
                     b.Property<int>("TaskId")
                         .HasColumnType("int");
 
-                    b.HasKey("LocationId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("TaskEntityTaskId");
+                    b.HasIndex("TaskEntityId");
 
                     b.ToTable("ShelfLocations");
                 });
 
+            modelBuilder.Entity("IndustryProduction.Models.Machine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("ActiveFlag")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CalendarId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<bool>("EnableFlag")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<int>("LastUpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MacGroup")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MacType")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MachineCode")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MachineModel")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PlantId")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("PortNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductionLine")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MachinesMaster");
+                });
+
             modelBuilder.Entity("IndustryProduction.Models.MachineModel", b =>
                 {
-                    b.Property<int>("MachineId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -480,6 +611,9 @@ namespace IndustryProduction.Migrations
                     b.Property<string>("ProductionLine")
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("STimeLunchHr")
                         .HasColumnType("nvarchar(50)");
 
@@ -510,14 +644,36 @@ namespace IndustryProduction.Migrations
                     b.Property<int>("WorkingHr")
                         .HasColumnType("int");
 
-                    b.HasKey("MachineId");
+                    b.HasKey("Id");
 
                     b.ToTable("Machines");
                 });
 
+            modelBuilder.Entity("IndustryProduction.Models.MachineWorking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MachineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShiftId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MachineId");
+
+                    b.HasIndex("ShiftId");
+
+                    b.ToTable("MachineWorkings");
+                });
+
             modelBuilder.Entity("IndustryProduction.Models.TaskLogsModel", b =>
                 {
-                    b.Property<int>("LogId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -534,19 +690,46 @@ namespace IndustryProduction.Migrations
                     b.Property<string>("LogMessages")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TaskEntityTaskId")
+                    b.Property<int?>("TaskEntityId")
                         .HasColumnType("int");
 
                     b.Property<int>("TaskId")
                         .HasColumnType("int");
 
-                    b.HasKey("LogId");
+                    b.HasKey("Id");
 
                     b.HasIndex("JobEntityId");
 
-                    b.HasIndex("TaskEntityTaskId");
+                    b.HasIndex("TaskEntityId");
 
                     b.ToTable("TaskTransactionLogs");
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.WorkingShift", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<string>("ShiftName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<int>("WorkingHr")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingMin")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkingShifts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -684,6 +867,15 @@ namespace IndustryProduction.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("IndustryProduction.Models.AlarmHistory", b =>
+                {
+                    b.HasOne("IndustryProduction.Models.Machine", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("IndustryProduction.Models.JobEntityTaskModel", b =>
                 {
                     b.HasOne("IndustryProduction.Models.JobEntityModel", "JobEntity")
@@ -692,7 +884,7 @@ namespace IndustryProduction.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IndustryProduction.Models.MachineModel", "Machine")
+                    b.HasOne("IndustryProduction.Models.Machine", "Machine")
                         .WithMany()
                         .HasForeignKey("MachineId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -703,7 +895,22 @@ namespace IndustryProduction.Migrations
                 {
                     b.HasOne("IndustryProduction.Models.JobEntityTaskModel", "TaskEntity")
                         .WithMany()
-                        .HasForeignKey("TaskEntityTaskId");
+                        .HasForeignKey("TaskEntityId");
+                });
+
+            modelBuilder.Entity("IndustryProduction.Models.MachineWorking", b =>
+                {
+                    b.HasOne("IndustryProduction.Models.Machine", "Machine")
+                        .WithMany("WorkingTime")
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IndustryProduction.Models.WorkingShift", "Shift")
+                        .WithMany()
+                        .HasForeignKey("ShiftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IndustryProduction.Models.TaskLogsModel", b =>
@@ -716,7 +923,7 @@ namespace IndustryProduction.Migrations
 
                     b.HasOne("IndustryProduction.Models.JobEntityTaskModel", "TaskEntity")
                         .WithMany("TaskLogs")
-                        .HasForeignKey("TaskEntityTaskId");
+                        .HasForeignKey("TaskEntityId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

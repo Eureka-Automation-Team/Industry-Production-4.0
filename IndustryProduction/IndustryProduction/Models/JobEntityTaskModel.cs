@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace IndustryProduction.Models
 {
-    public class JobEntityTaskModel
+    public class JobEntityTaskModel : DomainObject
     {
-        [Key]
-        [Column(TypeName = "int")]
-        public int TaskId { get; set; }
         [Column(TypeName = "int")]
         public int TaskSeq { get; set; }
 
@@ -102,14 +99,13 @@ namespace IndustryProduction.Models
         [Column(TypeName = "bit")]
         public bool StartFlag { get; set; }
 
-
         [Column(TypeName = "int")]
         public int JobEntityId { get; set; }
         public JobEntityModel JobEntity { get; set; }
 
         [Column(TypeName = "int")]
         public int MachineId { get; set; }
-        public MachineModel Machine { get; set; }
+        public Machine Machine { get; set; }
         public List<TaskLogsModel> TaskLogs { get; set; }
     }
 }

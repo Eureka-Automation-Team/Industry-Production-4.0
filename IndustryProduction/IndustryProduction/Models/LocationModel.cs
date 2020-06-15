@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace IndustryProduction.Models
 {
-    public class LocationModel
+    public class LocationModel : DomainObject
     {
-        [Key]
-        [Column(TypeName = "int")]
-        public int LocationId { get; set; }
         [Column(TypeName = "int")]
         public int LevelNo { get; set; }
         [Column(TypeName = "int")]

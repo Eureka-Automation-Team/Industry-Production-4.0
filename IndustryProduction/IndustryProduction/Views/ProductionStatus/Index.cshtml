@@ -1,0 +1,951 @@
+﻿@model IndustryProduction.Models.ParamModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Header{
+    <link href="~/Themes/Beid/assets/plugins/dataTables/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/plugins/bullet-chart/Style.css" rel="stylesheet" />
+}
+<div id="card" class="page-content-fl">
+    <div class="container-fluid p-0">
+        @*<div class="row flex-wrap align-items-center px-6 py-5">
+            <div class="col">
+                <div class="text-light pb-5 pb-lg-0 mr-auto">
+                    <h3 class="fw-100 mb-0">Production Status</h3>
+                </div>
+            </div>
+        </div>*@
+        <div class="card-row row no-gutters">
+            <div class="row flex-wrap align-items-center px-6 py-5">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="control-label">Start Date</label>
+                        @*<input type="text" class="form-control float-right  form-control-sm" id="requireStartDate" value="">*@
+                        @*<input class="form-control float-md-none  form-control-sm" type="text" id="daterange" value="" />*@
+                        <input class="form-control float-md-none  form-control-sm" type="text" data-bind="daterangepicker: dateRange" id="daterange" />
+                        @Html.Hidden("StartTime")
+                        @Html.Hidden("EndTime")
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">Machine</label>
+                        <select asp-for="MachineCode"
+                                class="form-control form-control-sm"
+                                asp-items="@(new SelectList(@ViewBag.ListOfMachine,"MachineCode", "MachineCode"))">
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">Group</label>
+                        <select asp-for="MachineGroup"
+                                class="form-control form-control-sm"
+                                asp-items="@(new SelectList(@ViewBag.ListOfMachineGroup,"MachineGroup", "MachineGroup"))">
+                            <option selected>- Optional -</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">Model</label>
+                        <input asp-for="MachineModel"
+                               class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">Production Line</label>
+                        <select asp-for="ProductionLine"
+                                class="form-control form-control-sm"
+                                asp-items="@(new SelectList(@ViewBag.ListOfProdLine,"ProdLine", "ProdLine"))">
+                            <option selected>- Optional -</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="#" class="mx-1 btn btn-outline-light" style="margin-top: 35px;" onclick="ExecuteData()">Refresh</a>
+                        @Html.Hidden("Ready", (object)ViewBag.ReadyFlag)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-row row no-gutters">
+            <div class="panel-col col-lp-12 panel-pt-col no-border-right">
+                <div class="panel-row row no-gutters">
+                    @*<div class="card-body" id="progressBar">
+                        </div>*@
+                    <table class="foo" style="width: 100%" id="table_1">
+                        <tr class="bar" style="width: 100%; border: 0px;">
+                            <td class="bar" style="text-align:center; border: 0px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid; width: 2%; background-color:#27263b"></td>
+                            <td class="bar" style="text-align:left; border-left: 0px solid; font-size:12px;" colspan="6">Available Time</td>
+                            <td class="bar" style="text-align:center; border: 1px solid; width: 2%; background-color:#2C7CFF"></td>
+                            <td class="bar" style="text-align:left; border-left: 0px solid; font-size:12px;" colspan="6">Production Progress</td>
+                            <td class="bar" style="text-align:center; border: 1px solid; width: 2%; background-color:#2af270"></td>
+                            <td class="bar" style="text-align:left; border-left: 0px solid; font-size:12px;" colspan="6">Time Progress</td>
+                            <td class="bar" style="text-align:center; border: 1px solid; width: 2%; background-color:#FFC52C"></td>
+                            <td class="bar" style="text-align:left; border-left: 0px solid; font-size:12px;" colspan="6">Planning Time</td>
+                            <td class="bar" style="text-align:center; border: 1px solid; width: 2%; background-color:#ff0000"></td>
+                            <td class="bar" style="text-align:left; border-left: 0px solid; font-size:12px;" colspan="6">Alarm Time</td>
+                        </tr>
+                        <tr class="bar" style="width: 100%; font-size: 5px; border: 0px;">
+                            <td colspan="50"></td>
+                        </tr>
+                        <tr class="bar" style="width: 100%; border: 0px solid; font-size: 16px;">
+                            <td class="bar" style="text-align:center; border: 0px solid; width: 2%; font-size: 16px;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid; background-color: #27263b; padding-left:20px;" colspan="48" id="tdbar">
+                                <div class="bullet-chart-container" style="width: 100%; border: 0px solid;" id="bullet-chart"></div>
+                            </td>
+                        </tr>
+                        <tr class="bar" style="width: 100%; border: 0px solid; font-size: 16px;">
+                            <td class="bar" style="text-align:center; border: 0px solid; width: 2%; font-size: 16px;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid; background-color: #27263b; padding-left:15px;" colspan="48" id="tdbar">
+                                <div class="bullet-chart-alarm" style="width: 100%; border: 0px solid;" id="bullet-chart-alarm"></div>
+                            </td>
+                        </tr>
+                        <tr class="bar" style="width: 100%; font-size: 5px; border: 0px;">
+                            <td class="bar" style="text-align:center; border: 0px; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="        text-align: center;
+        border: 1px solid none;
+        width: 2%;
+"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                        </tr>
+                        <tr class="bar" style="width: 100%; font-size: 5px; border-top: 1px solid; border-bottom: 0px; border-left: 0px; border-right: 0px;">
+                            <td class="bar" style="text-align:center; border: 0px; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 2%;"></td>
+                            <td class="bar" style="text-align:center; border-left: 1px solid; width: 2%;"></td>
+                        </tr>
+                        <tr class="bar" style="width: 100%; border: 0px solid; font-size: 12px;">
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">0</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">1</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">2</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">3</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">4</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">5</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">6</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">7</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">8</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">9</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">10</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">11</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">12</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">13</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">14</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">15</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">16</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">17</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">18</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">19</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">20</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">21</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">22</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">23</td>
+                            <td class="bar" style="text-align:center; border: 1px solid none; width: 4%;" colspan="2">24</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-row row no-gutters">
+            <div class="panel-col col-lp-12 panel-pt-col no-border-right">
+                <div class="panel panel-pt">
+                    <div class="panel-row row no-gutters">
+                        <div class="panel-col col-xl-10">
+                            <div class="panel">
+                                <header class="panel-header">
+                                    <h6 class="fw-200 text-uppercase mb-0">Production Queuing</h6>
+                                    <a href="#" class="d-flex align-items-center justify-content-center ml-auto">
+                                        <span class="lead-3 text-warning info-box-icon"></span>
+                                    </a>
+                                </header>
+                                <div class="panel-body">
+                                    <table id="example" class="display dataTable" style="width: 100%;" role="grid" aria-describedby="myTable_info">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-col col-xl-2 no-border-right">
+                            <div class="card-row row no-gutters">
+                                <div class="card-item col-lg-12 col-xl-12">
+                                    <div class="main-card card text-light flex-wrap align-items-center h-100 shadow-1">
+                                        <div class="flex-1">
+                                            <span>PLAN</span>
+                                            <div id="planTaskCount">
+                                                <h3 class="mb-0" id="">0</h3>
+                                            </div>
+                                        </div>
+                                        <div class="card-icon">
+                                            <div class="text-warning">
+                                                <span class="fas fa-calendar-alt"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress w-100 h-5 mt-4 mb-2">
+                                            <div class="progress-bar bg-gradient-progress-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-row row no-gutters">
+                                <div class="card-item col-lg-12 col-xl-12">
+                                    <div class="main-card card text-light flex-wrap align-items-center h-100 shadow-1">
+                                        <div class="flex-1">
+                                            <span>ACTUAL</span>
+                                            <h3 class="mb-0" id="actualTaskCount">0</h3>
+                                        </div>
+                                        <div class="card-icon">
+                                            <div class="text-warning">
+                                                <span class="far fa-user"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress w-100 h-5 mt-4 mb-2">
+                                            <div class="progress-bar bg-gradient-progress-warning" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-row row no-gutters">
+                                <div class="card-item col-lg-12 col-xl-12">
+                                    <div class="main-card card text-light flex-wrap align-items-center h-100 shadow-1">
+                                        <div class="flex-1">
+                                            <span>COMPLETE</span>
+                                            <h3 class="mb-0" id="completeTaskPercentage">100%</h3>
+                                        </div>
+                                        <div class="card-icon">
+                                            <div class="text-warning">
+                                                <span class="far fa-eye"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress w-100 h-5 mt-4 mb-2">
+                                            <div class="progress-bar bg-gradient-progress-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-row row no-gutters">
+                        <div class="panel-col col-xl-12">
+                            <div class="panel">
+                                <header class="panel-header">
+                                    <h6 class="fw-200 text-uppercase mb-0">Production Record</h6>
+                                    <a href="#" class="d-flex align-items-center justify-content-center ml-auto">
+                                        <span class="lead-3 text-warning info-box-icon"></span>
+                                    </a>
+                                </header>
+                                <div class="panel-body">
+                                    <table id="example2" class="display dataTable" style="width: 100%;" role="grid" aria-describedby="myTable_info">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @*<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>*@
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    @*<script src="~/plugins/bullet-chart/d3.min.js"></script>*@    
+    <script src="~/plugins/bullet-chart/bullet.js"></script>
+    <script>
+
+        $.ajax({
+            url: "/ProductionStatus/LaunchExternalProcess",
+            type: "POST",
+            cache: false,
+
+            success: function () {
+
+                console.log("success");
+            }
+        });
+
+        var resultData;
+        var startDate = "";
+        var endDate = "";
+        var machineNo = "";
+        var machineGroup = "";
+        var machineModel = "";
+        var prodLine = "";
+        var widget = [];
+
+        var container = d3.select('.bullet-chart-container').node().getBoundingClientRect();
+        var alarm = d3.select('.bullet-chart-alarm').node().getBoundingClientRect();
+
+        var margin = { top: 0, right: 0, bottom: 0, left: 0 },
+            width = container.width - margin.left - margin.right,
+            height = 60 - margin.top - margin.bottom,
+            height2 = 20 - margin.top - margin.bottom;
+
+        var chartProg = d3.bullet()
+            .width(width)
+            .height(height);
+
+        function GetProgression(data) {
+            var vdata = [];
+
+            for (var item in data) {
+                dataset = {
+                    "title": "..",
+                    //"ranges": [data[item].AvailableTime],
+                    "ranges": [24],
+                    "measures": [data[item].PlanVsAvailable, data[item].ProductionProgress],
+                    "markers": [data[item].TimeProgress],
+                };
+                //console.log(dataset);
+                vdata.push(dataset);
+            }
+
+            //console.log(vdata);
+
+            var svg = d3.select(".bullet-chart-container").selectAll("svg")
+                .data(vdata)
+                .enter().append("svg")
+                .attr("class", "bullet")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .call(chartProg);
+
+            var title = svg.append("g")
+                .style("text-anchor", "end")
+                .attr("transform", "translate(-6," + height / 2 + ")");
+
+            title.append("text")
+                .attr("class", "title")
+                .text(function (d) { return d.title; });
+
+            title.append("text")
+                .attr("class", "subtitle")
+                .attr("dy", "1em")
+                .text(function (d) { return d.subtitle; });
+
+            var timeBar = setInterval(function () {
+                updateData();
+            }, 2000);
+
+            console.log("New Interval " + timeBar);
+            console.log("Clear Interval " + (timeBar - 1));
+            clearInterval(timeBar -1)
+            //console.log(timeBar);
+        }
+
+        function GetProgressionAlarm(data) {
+            var vdata = [];
+
+            for (var item in data) {
+                dataset = {
+                    "title": "..",
+                    //"ranges": [data[item].AvailableTime],
+                    "ranges": [24],
+                    "measures": [0],
+                    "markers": [data[item].TimeProgress],
+                };
+                //console.log(dataset);
+                vdata.push(dataset);
+            }
+
+            //console.log(vdata);
+
+            var svg2 = d3.select(".bullet-chart-alarm").selectAll("svg")
+                .data(vdata)
+                .enter().append("svg")
+                .attr("class", "bullet")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height2 + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .call(chartProg);
+
+            var title = svg2.append("g")
+                .style("text-anchor", "end")
+                .attr("transform", "translate(-6," + height2 / 2 + ")");
+
+            title.append("text")
+                .attr("class", "title")
+                .text(function (d) { return d.title; });
+
+            title.append("text")
+                .attr("class", "subtitle")
+                .attr("dy", "1em")
+                .text(function (d) { return d.subtitle; });
+
+            var timeBar = setInterval(function () {
+                updateData();
+                updateData2();
+            }, 2000);
+
+            console.log("New Interval " + timeBar);
+            console.log("Clear Interval " + (timeBar - 1));
+            clearInterval(timeBar -1)
+            //console.log(timeBar);
+        }
+
+        //function updateData(data) {
+        //  d3.json(vdata, function(error, data) {
+        //  d3.select("body").selectAll("svg")
+        //   .datum(function (d, i) {
+        //    d.ranges = data[i].ranges;
+        //    d.measures = data[i].measures;
+        //    d.markers = data[i].markers;
+        //    return d;
+        //   })
+        //   .call(chart.duration(1000));
+        // });
+        //}
+
+        function updateData() {
+            var readyFlag = $("#Ready").val();
+            if (readyFlag == 1) {
+                //console.log("Monitoring activated");
+                var url = "/ProductionStatus/GetProgressionBar";
+
+                $.getJSON(url,
+                    {
+                        startDate: startDate,
+                        endDate: endDate,
+                        machineNo: machineNo,
+                        machineGroup: machineGroup,
+                        machineModel: machineModel,
+                        pdLine: prodLine
+                    },
+                    function (data) {
+                        console.log(data);
+                        var vdata = [];
+                        var startTime = 0;
+                        var endTime = 0;
+                        var progress = 0;
+
+                        for (var item in data) {
+                            startTime = data[item].TaskStartTime;
+                            endTime = data[item].TaskEndTime;
+                            progress = startTime + data[item].ProductionProgress;
+                            
+                            //console.log(alrm);
+                            dataset = {
+                                "ranges": [24],
+                                //"measures": [4, data[item].PlanVsAvailable, data[item].ProductionProgress],
+                                "measures": [endTime, startTime, progress],
+                                "markers": [data[item].TimeProgress],
+                            };
+                            //console.log(data[item].AlarmsStr);
+                            vdata.push(dataset);
+                        }
+
+                        //console.log(vdata);
+                        d3.select(".bullet-chart-container").selectAll("svg")
+                            .datum(function (d, i) {
+                                //d.startTime = vdata[i].startTime;
+                                d.ranges = vdata[i].ranges;
+                                d.measures = vdata[i].measures;
+                                d.markers = vdata[i].markers;
+                                return d;
+                            })
+                            //.call(chartProg.duration(10));
+                            .call(chartProg.duration(50));//.startTime(200));
+                    })
+            }
+        }
+
+        function updateData2() {
+            var readyFlag = $("#Ready").val();
+            if (readyFlag == 1) {
+                //console.log("Monitoring activated");
+                var url = "/ProductionStatus/GetProgressionBar";
+
+                $.getJSON(url,
+                    {
+                        startDate: startDate,
+                        endDate: endDate,
+                        machineNo: machineNo,
+                        machineGroup: machineGroup,
+                        machineModel: machineModel,
+                        pdLine: prodLine
+                    },
+                    function (data) {
+                        console.log(data);
+                        var vdata = [];
+                        var alrm = [24];
+                        var startTime = 0;
+
+                        for (var item in data) {
+                            startTime = data[item].TaskStartTime;
+
+                            for (var al in data[item].Alarms) {
+                                //console.log(data[item].Alarms[al].StartTimeStr)
+                                alrm.push(data[item].Alarms[al].StartTimeStr);
+                                alrm.push(data[item].Alarms[al].EndTimeStr);
+                            }
+                            
+                            console.log("Alarm : " + alrm);
+                            dataset = {
+                                "ranges": alrm,
+                                "measures": [0, 0, 0],
+                                "markers": [data[item].TimeProgress],
+                            };
+                            //console.log(data[item].AlarmsStr);
+                            vdata.push(dataset);
+                        }
+
+                        //console.log(vdata);
+                        d3.select(".bullet-chart-alarm").selectAll("svg")
+                            .datum(function (d, i) {
+                                //d.startTime = vdata[i].startTime;
+                                d.ranges = vdata[i].ranges;
+                                d.measures = vdata[i].measures;
+                                d.markers = vdata[i].markers;
+                                return d;
+                            })
+                            //.call(chartProg.duration(10));
+                            .call(chartProg.duration(50));//.startTime(200));
+                    })
+            }
+        }
+
+        $("#daterange").daterangepicker({
+            minDate: moment().subtract(2, 'years'),
+            callback: function (startDate, endDate, period) {
+                $(this).val(startDate.format('L') + ' – ' + endDate.format('L'));
+            }
+        });
+
+        function ExecuteData() {
+            startDate = $('#daterange').data('daterangepicker').startDate.format('L');
+            endDate = $('#daterange').data('daterangepicker').endDate.format('L');
+            machineNo = $("#MachineCode").val();
+            machineGroup = $("#MachineGroup").val();
+            machineModel = $("#MachineModel").val();
+            prodLine = $("#ProductionLine").val();
+
+            document.getElementById('Ready').value = '1';
+            ClearProgress();
+            InitailProgress();
+            //GenerateTable(data);
+            //GetDataToGenerateProgression();
+        }
+
+        function ClearProgress() {
+            var container = document.getElementById("bullet-chart");
+            container.parentNode.removeChild(container);
+
+            var bulletBar = $("<div>");
+            bulletBar.addClass("bullet-chart-container");
+            bulletBar.attr("id", "bullet-chart");
+            bulletBar.attr("style", "width: 100%; border: 0px solid;");
+
+            $("#tdbar").html(bulletBar);
+        }
+
+        function GetDataToGenerateProgression() {
+            var url = "/ProductionStatus/GetProgression";
+            $.getJSON(url,
+                {
+                    startDate: startDate,
+                    endDate: endDate,
+                    machineNo: machineNo,
+                    machineGroup: machineGroup,
+                    machineModel: machineModel,
+                    pdLine: prodLine
+                },
+                function (data) {
+                    resultData = data;
+                    widget = [];
+                    GenerateTable(data);
+                    //console.log(widget);
+                })
+        };
+
+
+        setInterval(
+            function () {
+                var readyFlag = $("#Ready").val();
+                if (readyFlag == 1) {
+                    //console.log("Monitoring activated");
+                    var url = "/ProductionStatus/GetTaskSummary";
+
+                    $.getJSON(url,
+                        {
+                            startDate: startDate,
+                            endDate: endDate,
+                            machineNo: machineNo,
+                            machineGroup: machineGroup,
+                            machineModel: machineModel,
+                            pdLine: prodLine
+                        },
+                        function (data) {
+                            ExportQueuing(data.TasksQueuing);
+                            ExportRecord(data.TasksRecord);
+                            DisplayWidget(data);
+                            //DisplayProgression();
+                            //console.log(data);
+                        })
+                }
+            }, 5000);
+
+        //setInterval(
+        //    function () {
+        //        var readyFlag = $("#Ready").val();
+        //        if (readyFlag == 1) {
+        //            //console.log("Monitoring activated");
+        //            var url = "/ProductionStatus/GetProgressionBar";
+
+        //            $.getJSON(url,
+        //                {
+        //                    startDate: startDate,
+        //                    endDate: endDate,
+        //                    machineNo: machineNo,
+        //                    machineGroup: machineGroup,
+        //                    machineModel: machineModel,
+        //                    pdLine: prodLine
+        //                },
+        //                function (data) {
+        //                    GetProgression(data);
+        //                    console.log(data);
+        //                })
+        //        }
+        //    }, 5000);
+
+        function InitailProgress() {
+            var readyFlag = $("#Ready").val();
+            if (readyFlag == 1) {
+                //console.log("Monitoring activated");
+                var url = "/ProductionStatus/GetProgressionBar";
+
+                $.getJSON(url,
+                    {
+                        startDate: startDate,
+                        endDate: endDate,
+                        machineNo: machineNo,
+                        machineGroup: machineGroup,
+                        machineModel: machineModel,
+                        pdLine: prodLine
+                    },
+                    function (data) {
+                        GetProgression(data);
+                        GetProgressionAlarm(data);
+                        // console.log(data);
+                    })
+            }
+        }
+
+        function ExportQueuing(dataSet) {
+            $('#example').DataTable({
+                "destroy": true,
+                "paging": true,
+                "searching": false,
+                "pageLength": 5,
+                "lengthMenu": [5],
+                data: dataSet,
+                columns: [
+                    { data: 'Seq', title: "Seq." },
+                    { data: 'PartNumber', title: "Part" },
+                    { data: 'TableNumber', title: "Table" },
+                    { data: 'JobNumber', title: "Job" },
+                    { data: 'RequiredDate', title: "Required" },
+                    { data: 'MachineCode', title: "MAC." },
+                    { data: 'ProductionStatus', title: 'Status' },
+                ]
+            });
+        }
+
+        function ExportRecord(data) {
+            $('#example2').DataTable({
+                "destroy": true,
+                "paging": true,
+                "searching": false,
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 20, 50],
+                data: data,
+                columns: [
+                    { data: "StartTime", title: "Start" },
+                    { data: "JobNumber", title: "Job" },
+                    { data: "PartNumber", title: "Part" },
+                    { data: "TableNumber", title: "Table" },
+                    { data: "MachineNo", title: "MAC." },
+                    { data: "DueDate", title: "Required" },
+                    { data: "NcFile", title: "NC File" },
+                    { data: "SetupBy", title: "Setup" },
+                    { data: "FinishTime", title: "Finish" },
+                    { data: "MachineTimeHr", title: "Time(hr)" },
+                ]
+            });
+        }
+
+        function DisplayWidget(data) {
+
+            var plan = $('<h3>').addClass('mb-0').text(data.TasksPlanCount);
+            var actual = $('<h3>').addClass('mb-0').text(data.TasksActualCount);
+            var completed = $('<h3>').addClass('mb-0').text(data.CompletedPercentage.toFixed(0) + '%');
+
+            //console.log('Plan widget : '+ plan);
+            $("#planTaskCount").html(plan);
+            $("#actualTaskCount").html(actual);
+            $("#completeTaskPercentage").html(completed);
+        }
+
+        function DisplayProgression(data) {
+            for (var d in data.WorkingDays) {
+                for (var sf in data.WorkingDays[d].ShiftTasks) {
+                    var htm = $('<div>').attr("style", "width: 100%; border: 0px solid;");
+                    var tableWidget = $('<table>').attr("style", "width: 100%; border: 0px solid;");
+                    var row1 = $('<tr>').attr("style", "width: 100%; border: 0px solid;");
+                    var row2 = $('<tr>').attr("style", "width: 100%; border: 0px solid;");
+                    var row3 = $('<tr>').attr("style", "width: 100%; border: 0px solid;");
+                    var availableTime = data.WorkingDays[d].ShiftTasks[sf].AvailableTime;
+                    var planTime = data.WorkingDays[d].ShiftTasks[sf].PlanTime;
+                    var progressTime = data.WorkingDays[d].ShiftTasks[sf].ProgressTime;
+                    var productionTime = data.WorkingDays[d].ShiftTasks[sf].ProductionTime;
+
+                    var timePlan = $('<div>').addClass('progress-bar bg-gradient-progress-primary')
+                        .attr('role', 'progressbar')
+                        .attr('style', 'width: ' + (planTime / availableTime) * 100 + '%; height: 10px;')
+                        .attr('aria-valuenow', planTime)
+                        .attr('aria-valuemin', '0')
+                        .attr('aria-valuemax', availableTime);
+
+                    var col1 = $('<td>').addClass('bar').attr("style", "text-align:center; border: 0px; width: 100%; height: 10px;").html(timePlan);
+                    row1.append(col1);
+
+                    var timeProgress = $('<div>').addClass('progress-bar bg-gradient-progress-warning')
+                        .attr('role', 'progressbar')
+                        .attr('style', 'width: ' + (progressTime / availableTime) * 100 + '%; height: 10px;')
+                        .attr('aria-valuenow', progressTime)
+                        .attr('aria-valuemin', '0')
+                        .attr('aria-valuemax', availableTime);
+                    var col2 = $('<td>').addClass('bar').attr("style", "text-align:center; border: 0px; width: 100%; height: 10px;").html(timeProgress);
+                    row2.append(col2);
+
+                    var timeProduction = $('<div>').addClass('progress-bar bg-gradient-progress-danger')
+                        .attr('role', 'progressbar')
+                        .attr('style', 'width: ' + (productionTime / availableTime) * 100 + '%; height: 10px;')
+                        .attr('aria-valuenow', productionTime)
+                        .attr('aria-valuemin', '0')
+                        .attr('aria-valuemax', availableTime);
+                    var col3 = $('<td>').addClass('bar').attr("style", "text-align:center; border: 0px; width: 100%; height: 10px;").html(timeProduction);
+                    row3.append(col3);
+
+                    tableWidget.append(row1);
+                    tableWidget.append(row2);
+                    tableWidget.append(row3);
+                    htm.append(tableWidget);
+
+                    var tagDate = moment(data.WorkingDays[d].StartDate).format('DDMMYYYY');
+                    var tagId = tagDate + "_" + data.WorkingDays[d].ShiftTasks[sf].ShiftId;
+                    $('#' + tagId).html(htm);
+                }
+            }
+        }
+
+            //function GenerateTable(data) {
+            //    var htm = $('<div>');
+            //    var d = 1;
+            //    for (var item in data.WorkingDays) {
+            //        var nowStartDate = moment(data.WorkingDays[item].StartDate).format('DD/MM/YYYY');
+            //        var nowEndDate = moment(data.WorkingDays[item].EndDate).format('DD/MM/YYYY');
+            //        var table = $('<table>').addClass('foo');
+            //        table.attr("style", "width: 100%");
+            //        table.attr("id", "table_" + d);
+            //        var head = $('<tr>').addClass('bar').attr("style", "width: 100%; border: 0px solid; font-size: 16px;");
+            //        var colhead = $('<td>').attr("style", "text-align:center; border: 0px solid; width: 2%; font-size: 16px;")
+            //            .attr("colspan", 49).text(nowStartDate + " - " + nowEndDate);
+
+            //        head.append(colhead);
+            //        table.append(head);
+            //        for (i = 0; i <= 3; i++) {
+            //            if (i == 0) {
+            //                //var row = $('<tr>').addClass('bar').attr("style", "width: 100%; border: 1px solid; font-size: 12px;").text('result ' + i);
+            //                var row = $('<tr>').addClass('bar').attr("style", "width: 100%; border: 0px solid; font-size: 16px;");
+
+            //                //console.log(data);
+            //                var startScale = data.WorkingDays[0].StartHours - 1;
+            //                var totalSumCol = 0;
+            //                var colF = 0;
+            //                for (var shift in data.WorkingDays[0].ShiftTasks) {
+            //                    var _start = data.WorkingDays[0].ShiftTasks[shift].StartHr;
+            //                    var colspStart = ((_start - startScale) * 2);
+            //                    var colspEnd = (data.WorkingDays[0].ShiftTasks[shift].TotalHr) * 2;
+
+            //                    //console.log("Col start " + colF);
+            //                    //console.log("Col end " + colspEnd);
+
+            //                    for (t = colF; t <= colspStart; t++) {
+            //                        var col = $('<td>').addClass('bar').attr("style", "text-align:center; border: 0px solid; width: 2%; font-size: 16px;");
+            //                        row.append(col);
+            //                        totalSumCol++;
+            //                    }
+
+            //                    var tagDate = moment(data.WorkingDays[item].StartDate).format('DDMMYYYY');
+            //                    var tagId = tagDate + "_" + data.WorkingDays[0].ShiftTasks[shift].ShiftId;
+            //                    widget.push(tagId);
+
+            //                    var col = $('<td>').addClass('bar')
+            //                        .attr("style", "text-align:center; border: 1px solid; width: 2%; background-color: #27263b;")
+            //                        .attr("colspan", (colspEnd))
+            //                        .attr("id", tagId)
+            //                        .text(".");
+
+            //                    totalSumCol = totalSumCol + colspEnd;
+            //                    colF = totalSumCol;
+            //                    row.append(col);
+            //                }
+            //                row.append(col);
+            //            } else if (i == 1) {
+            //                //var row = $('<tr>').addClass('bar').attr("style", "width: 100%; font-size: 5px; border: 1px solid;")    ;
+            //                var row = $('<tr>').addClass('bar').attr("style", "width: 100%; font-size: 5px; border: 0px;");
+            //                var l = (data.WorkingDays[0].TotalHours + 2) * 2;
+            //                for (t = 0; t <= 49; t++) {
+            //                    if (t == 0) {
+            //                        var col = $('<td>').addClass('bar').attr("style", "text-align:center; border: 0px; width: 2%;");
+            //                    } else if ((t % 2) != 0) {
+            //                        var col = $('<td>').addClass('bar').attr("style", "text-align:center; border-left: 1px solid; width: 2%;");
+            //                    } else {
+            //                        var col = $('<td>').addClass('bar').attr("style", "text-align:center; border: 1px solid none; width: 2%;");
+            //                    }
+            //                    row.append(col);
+            //                }
+            //            } else if (i == 2) {
+            //                //var row = $('<tr>').addClass('bar').attr("style", "width: 100%; font-size: 5px; border-top: 1px solid; border-bottom: 1px solid; border-left: 1px solid; border-right: 1px solid;");
+            //                var row = $('<tr>').addClass('bar').attr("style", "width: 100%; font-size: 5px; border-top: 1px solid; border-bottom: 0px; border-left: 0px; border-right: 0px;");
+            //                var l = (data.WorkingDays[0].TotalHours + 2) * 2;
+            //                for (t = 0; t <= 49; t++) {
+
+            //                    if (t == 0) {
+            //                        var col = $('<td>').addClass('bar').attr("style", "text-align:center; border: 0px; width: 2%;");
+            //                    } else if ((t % 2) != 0) {
+            //                        var col = $('<td>').addClass('bar').attr("style", "text-align:center; border-left: 1px solid; width: 2%;");
+            //                    } else {
+            //                        var col = $('<td>').addClass('bar').attr("style", "text-align:center; border: 1px solid none; width: 2%;");
+            //                    }
+            //                    row.append(col);
+            //                }
+            //            } else {
+            //                //var row = $('<tr>').addClass('bar').attr("style", "width: 100%; border: 1px solid; font-size: 12px;");
+            //                var row = $('<tr>').addClass('bar').attr("style", "width: 100%; border: 0px solid; font-size: 12px;");
+            //                var startHr = data.WorkingDays[0].StartHours - 1;
+
+            //                var h = 1;
+            //                var resetHr = false;
+            //                for (t = 0; t <= 24; t++) {
+
+            //                    if ((t + startHr) > 24 && !resetHr) {
+            //                        h = 1;
+            //                        resetHr = true;
+            //                    } else if ((t + startHr) <= 24) {
+            //                        h = t + startHr;
+            //                    }
+            //                    var col = $('<td>').addClass('bar').attr("style", "text-align:center; border: 1px solid none; width: 4%;").attr("colspan", "2").text(h);
+            //                    row.append(col);
+            //                    h++;
+            //                }
+            //            }
+
+            //            table.append(row);
+            //        }
+            //        d++;
+            //        htm.append(table);
+            //        document.getElementById('Ready').value = '1';
+            //    }
+
+            //    //console.log(htm);
+            //    $("#progressBar").html(htm);
+            //}
+    </script>
+
+}

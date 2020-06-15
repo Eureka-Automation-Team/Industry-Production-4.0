@@ -1,0 +1,234 @@
+﻿@model IndustryProduction.Models.ParamModel
+@{
+    ViewData["Title"] = "OEE Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Header{
+    <link href="~/Themes/Beid/assets/plugins/dataTables/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div id="card" class="page-content-fl">
+    <div class="container-fluid p-0">
+        @*<div class="row flex-wrap align-items-center px-6 py-5">
+            <div class="col">
+                <div class="text-light pb-5 pb-lg-0 mr-auto">
+                    <h3 class="fw-100 mb-0">OEE Report</h3>
+                </div>
+            </div>
+        </div>*@
+            <div class="row flex-wrap align-items-center px-6 py-5">                
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Start Date</label>
+                            @*<input type="text" class="form-control float-right  form-control-sm" id="requireStartDate" value="">*@
+                            @*<input class="form-control float-md-none  form-control-sm" type="text" id="daterange" value="" />*@
+                            <input class="form-control float-md-none  form-control-sm" type="text" data-bind="daterangepicker: dateRange" id="daterange" />
+                            @Html.Hidden("StartTime")
+                            @Html.Hidden("EndTime")
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label">Machine</label>
+                            <select asp-for="MachineCode"
+                                    class="form-control form-control-sm"
+                                    asp-items="@(new SelectList(@ViewBag.ListOfMachine,"MachineCode", "MachineCode"))">
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label">Group</label>
+                            <select asp-for="MachineGroup"
+                                    class="form-control form-control-sm"
+                                    asp-items="@(new SelectList(@ViewBag.ListOfMachineGroup,"MachineGroup", "MachineGroup"))">
+                                <option selected>- Optional -</option>
+                            </select>
+                        </div>
+                        @*<div class="col-md-2">
+                <label class="control-label">Model</label>
+                <input asp-for="MachineModel"
+                       class="form-control form-control-sm" />
+            </div>*@
+                        <div class="col-md-3">
+                            <label class="control-label">Production Line</label>
+                            <select asp-for="ProductionLine"
+                                    class="form-control form-control-sm"
+                                    asp-items="@(new SelectList(@ViewBag.ListOfProdLine,"ProdLine", "ProdLine"))">
+                                <option selected>- Optional -</option>
+                            </select>
+                            @Html.Hidden("Ready", (object)ViewBag.ReadyFlag)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        <div class="card-row row no-gutters">
+            <div class="panel-col col-lp-12 panel-pt-col no-border-right">
+                <div class="panel panel-pt">
+                    <div class="panel-row row no-gutters">
+                        <div class="panel-col col-xl-12">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div id="gaugeOEE" style="width: 100%; height: auto;"></div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div id="gaugeAvialability" style="width: 100%; height: 100%; bottom:0px; vertical-align: bottom;"></div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div id="gaugePerformance" style="width: 100%; height: 100%; bottom:0px; vertical-align: bottom;"></div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div id="gaugeQuality" style="width: 100%; height: 100%; bottom:0px; vertical-align: bottom;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-row row no-gutters">
+                        <div class="panel-col col-xl-12">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <table id="example" class="display dataTable" style="width: 100%;" role="grid" aria-describedby="myTable_info">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <!-- Gauge -->
+    <script src="~/plugins/justgage/raphael-2.1.4.min.js"></script>
+    <script src="~/plugins/justgage/justgage.js"></script>
+    <script>
+        var resultData;
+        var startDate = "";
+        var endDate = "";
+        var machineNo = "";
+        var machineGroup = "";
+        var machineModel = "";
+        var prodLine = "";
+        var widget = [];
+
+        //Global data return
+        var glData = {};
+        GetData();
+
+        $("#daterange").daterangepicker({
+            minDate: moment().subtract(2, 'years'),
+            callback: function (startDate, endDate, period) {
+                $(this).val(startDate.format('L') + ' – ' + endDate.format('L'));
+            }
+        });
+
+        async function GetData() {
+            startDate = $('#daterange').data('daterangepicker').startDate.format('L');
+            endDate = $('#daterange').data('daterangepicker').endDate.format('L');
+            machineNo = $("#MachineCode").val();
+            machineGroup = $("#MachineGroup").val();
+            prodLine = $("#ProductionLine").val();
+
+            var url = "/OEE/GetOEEReportByMachine";
+            $.getJSON(url, { startDate: startDate, endDate: endDate, machineNo: machineNo, machineGroup: machineGroup, pdLine: prodLine },
+                function (data) {
+                    console.log(data);
+                    glData = data;
+                })
+        }
+
+        var gOEEGage = new JustGage({
+            id: "gaugeOEE",
+            value: 0,
+            min: 0,
+            max: 100,
+            decimals: 3,
+            title: "OEE",
+            valueFontColor: "#00B1FF",
+            relativeGaugeSize: true
+        });
+
+        var gAvialabilityGage = new JustGage({
+            id: "gaugeAvialability",
+            value: 0,
+            min: 0,
+            max: 100,
+            decimals: 2,
+            title: "AVIALABILITY",
+            valueFontColor: "#00B1FF",
+            relativeGaugeSize: true
+        });
+
+
+        var gQualityGage = new JustGage({
+            id: "gaugeQuality",
+            value: 0,
+            min: 0,
+            max: 100,
+            decimals: 2,
+            title: "QUALITY",
+            valueFontColor: "#00B1FF",
+            relativeGaugeSize: true
+        });
+        //
+        var gPerformanceGage = new JustGage({
+            id: "gaugePerformance",
+            value: 0,
+            min: 0,
+            max: 100,
+            decimals: 2,
+            title: "PERFORMANCE",
+            valueFontColor: "#00B1FF",
+            relativeGaugeSize: true
+        });
+
+        setInterval(
+            function () {
+                GetData();            
+                UpdateGage(glData);
+                ExportRecord(glData.OeeLine)
+            }
+            , 3000);
+
+        function UpdateGage(data) {
+                gOEEGage.refresh(data.OEE);
+                gQualityGage.refresh(data.Quality);
+                gPerformanceGage.refresh(data.Performance); //***
+                gAvialabilityGage.refresh(data.ProcessUtilization);
+        };
+
+        function ExportRecord(data) {
+            $('#example').DataTable({
+                "destroy": true,
+                "paging": true,
+                "searching": false,
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 20, 50],
+                data: data,
+                columns: [
+                    { data: "MachineCode", title: "Machine" },
+                    { data: "AvailableTimeHr", type: "text", align: "center", title: "Available(hr)" },
+                    { data: "PlanningTimeHr", type: "text", align: "center", title: "Planning(hr)" },
+                    { data: "ProductionTimeHr", type: "text", align: "center", title: "Production(hr)" },
+                    { data: "PlanUtilization", type: "text", align: "center", title: "PlanUtl." },
+                    { data: "ProcessUtilization", type: "text", align: "center", title: "ProcessUtl.(%)" },
+                    { data: "Actual", type: "text", align: "center", title: "Actual" },
+                    { data: "PlanninPcs", type: "text", align: "center", title: "Plan" },
+                    { data: "Performance", type: "text", align: "center", title: "Performance(%)" },
+                    { data: "Quality", type: "text", align: "center", title: "Quality(%)" },
+                    { data: "OEE", type: "text", align: "center", title: "OEE" },
+                    { data: "QcPass", type: "text", align: "center", title: "Pass" },
+                    { data: "QcNG", type: "text", align: "center", title: "NG" },
+                    { data: "Hold", type: "text", align: "center", title: "Hold" }
+                ]
+            });
+        }
+    </script>
+}

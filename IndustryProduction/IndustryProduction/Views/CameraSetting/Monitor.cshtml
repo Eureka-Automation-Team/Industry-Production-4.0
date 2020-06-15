@@ -1,0 +1,28 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<html>
+    <head>
+        <title>IP Camera</title>
+    </head>
+    <body>
+
+        <OBJECT classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921"
+                codebase="https://download.videolan.org/vlc/0.8.2/win32/axvlc.cab"
+                id="vlc" width="700" height="500" events="True">
+            @*<param name="src" value=@ViewBag.CameraUrl />*@
+            <param name="src" value="rtsp://admin:admin@192.168.4.98:88/live/video/profile2" />
+            <param name="ShowDisplay" value="True" />
+            <param name="AutoLoop" value="False" />
+            <param name="AutoPlay" value="true" />
+        </OBJECT>
+
+        <script type='text/javascript'>
+             window.onload = function(){
+               var vlc = document.getElementById('vlc');
+              vlc.playlist.playItem( vlc.playlist.add('rtsp://admin:admin@192.168.4.98:88/live/video/profile2') );
+             };
+        </script>
+    </body>
+</html>

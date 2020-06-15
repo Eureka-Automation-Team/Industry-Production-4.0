@@ -1,0 +1,89 @@
+﻿@model IndustryProduction.Models.WorkingShift
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="card" class="page-content-fl">
+    <div class="container-fluid p-0">
+        <div class="row panel-top-line">
+            <div class="col">
+                <div class="py-7">
+                    <div class="mb-7">
+                        <h4 class="hr-text-left">New Shift</h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form asp-action="Create">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <input type="hidden" asp-for="Id" />
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="ShiftName" class="control-label"></label>
+                                                    <input asp-for="ShiftName" class="form-control" />
+                                                    <span asp-validation-for="ShiftName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+            
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="StartTime" class="control-label"></label>
+                                                    <input asp-for="StartTime" class="form-control" />
+                                                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="EndTime" class="control-label"></label>
+                                                    <input asp-for="EndTime" class="form-control" />
+                                                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="WorkingHr" class="control-label"></label>
+                                                    <input asp-for="WorkingHr" class="form-control" />
+                                                    <span asp-validation-for="WorkingHr" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="WorkingMin" class="control-label"></label>
+                                                    <input asp-for="WorkingMin" class="form-control" />
+                                                    <span asp-validation-for="WorkingMin" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+  
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <input type="submit" value="Create" class="my-3 mx-1 btn btn-outline-primary" />
+                                                <a href="@Url.Action("Index", "WorkingShift")" class="my-3 mx-1 btn btn-outline-warning">Back to List</a>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

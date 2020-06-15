@@ -1,0 +1,66 @@
+﻿@model IndustryProduction.Models.MachineWorking
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="card" class="page-content-fl">
+    <div class="container-fluid p-0">
+        <div class="row panel-top-line">
+            <div class="col">
+                <div class="py-7">
+                    <div class="mb-7">
+                        <h4 class="hr-text-left">New Machine</h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form asp-action="Create">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <input type="hidden" asp-for="Id" />
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="MachineId" class="control-label"></label>
+                                                    <select asp-for="MachineId" class="form-control" asp-items="ViewBag.MachineId"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                             
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="ShiftId" class="control-label"></label>
+                                                    <select asp-for="ShiftId" class="form-control" asp-items="ViewBag.ShiftId"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                  
+                                            </div>
+                                        </div>
+                
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <input type="submit" value="Create" class="my-3 mx-1 btn btn-outline-primary" />
+                                                <a href="@Url.Action("Index", "MachineWorking")" class="my-3 mx-1 btn btn-outline-warning">Back to List</a>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

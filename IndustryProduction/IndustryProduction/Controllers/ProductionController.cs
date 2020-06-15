@@ -59,7 +59,7 @@ namespace IndustryProduction.Controllers
 
             if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => (string.IsNullOrEmpty(x.MachineNoReady) ? x.MachineNo : x.MachineNoReady) == machineNo).ToList();
             if (!string.IsNullOrEmpty(machineGroup)) result = result.Where(x => x.Machine.MacGroup == machineGroup).ToList();
-            if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MacModel == machineModel).ToList();
+            if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MachineModel == machineModel).ToList();
             if (!string.IsNullOrEmpty(pdLine)) result = result.Where(x => x.Machine.ProductionLine == pdLine).ToList();
 
             return (JsonConvert.SerializeObject(result, new JsonSerializerSettings()
@@ -84,7 +84,7 @@ namespace IndustryProduction.Controllers
 
             if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => (string.IsNullOrEmpty(x.MachineNoReady) ? x.MachineNo : x.MachineNoReady) == machineNo).ToList();
             if (!string.IsNullOrEmpty(machineGroup)) result = result.Where(x => x.Machine.MacGroup == machineGroup).ToList();
-            if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MacModel == machineModel).ToList();
+            if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MachineModel == machineModel).ToList();
             if (!string.IsNullOrEmpty(pdLine)) result = result.Where(x => x.Machine.ProductionLine == pdLine).ToList();
 
             return (JsonConvert.SerializeObject(result, new JsonSerializerSettings()
@@ -115,7 +115,7 @@ namespace IndustryProduction.Controllers
 
             if (!string.IsNullOrEmpty(machineNo)) result = result.Where(x => (string.IsNullOrEmpty(x.MachineNoReady) ? x.MachineNo : x.MachineNoReady) == machineNo).ToList();
             if (!string.IsNullOrEmpty(machineGroup)) result = result.Where(x => x.Machine.MacGroup == machineGroup).ToList();
-            if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MacModel == machineModel).ToList();
+            if (!string.IsNullOrEmpty(machineModel)) result = result.Where(x => x.Machine.MachineModel == machineModel).ToList();
             if (!string.IsNullOrEmpty(pdLine)) result = result.Where(x => x.Machine.ProductionLine == pdLine).ToList();
 
             //Summaries
@@ -144,7 +144,7 @@ namespace IndustryProduction.Controllers
             _productionViewModel.TimePlan = result.Sum(x => x.StandardTime);
             _productionViewModel.TimeProgress = Convert.ToInt32((timeProgress / _productionViewModel.AvailableTime) * 100);
             _productionViewModel.ProductionProgress = Convert.ToInt32((prgT / _productionViewModel.AvailableTime) * 100);
-            _productionViewModel.PlanProgress = Convert.ToInt32((_productionViewModel.TimePlan / _productionViewModel.AvailableTime) * 100); ;
+            _productionViewModel.PlanProgress = Convert.ToInt32((_productionViewModel.TimePlan / _productionViewModel.AvailableTime) * 100);
 
             return Json(_productionViewModel);
         }
@@ -158,7 +158,7 @@ namespace IndustryProduction.Controllers
             }
 
             var jobEntityTaskModel = await _context.JobTasks
-                .FirstOrDefaultAsync(m => m.TaskId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (jobEntityTaskModel == null)
             {
                 return NotFound();
@@ -212,7 +212,7 @@ namespace IndustryProduction.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TaskId,TaskSeq,JobEntityId,TaskNumber,JobNumber,Description,Manager,StartDate,EndDate,CancelFlag,LastUpdateDate,LastUpdatedBy,CreationDate,CreatedBy,ErrorText,ReadyFlag,ReleaseFlag,UploadNcfileFlag,TransferNCFileToMachineFlag,TransferMessage,Source,ShelfNumber,ReserveShelfFlag,OnShelfFlag,McProcessFlag,McPickFlag,McLoadFlag,McFinishFlag,McUnloadFlag,McPushFlag,OutboundFlag,OutboundFinishFlag,QCStatus,MaterialCode,TableNumber,NcFile,DueDate,MachineNo,MachineNoReady,Priority,StandardTime,PrimaryItemCode,PrimaryItemModel,PrimaryQuantity,StartFlag")] JobEntityTaskModel jobEntityTaskModel)
         {
-            if (id != jobEntityTaskModel.TaskId)
+            if (id != jobEntityTaskModel.Id)
             {
                 return NotFound();
             }
@@ -226,7 +226,7 @@ namespace IndustryProduction.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobEntityTaskModelExists(jobEntityTaskModel.TaskId))
+                    if (!JobEntityTaskModelExists(jobEntityTaskModel.Id))
                     {
                         return NotFound();
                     }
@@ -249,7 +249,7 @@ namespace IndustryProduction.Controllers
             }
 
             var jobEntityTaskModel = await _context.JobTasks
-                .FirstOrDefaultAsync(m => m.TaskId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (jobEntityTaskModel == null)
             {
                 return NotFound();
@@ -271,7 +271,7 @@ namespace IndustryProduction.Controllers
 
         private bool JobEntityTaskModelExists(int id)
         {
-            return _context.JobTasks.Any(e => e.TaskId == id);
+            return _context.JobTasks.Any(e => e.Id == id);
         }
     }
 }

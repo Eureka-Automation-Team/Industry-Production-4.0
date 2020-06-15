@@ -1,0 +1,75 @@
+﻿@model IEnumerable<IndustryProduction.Models.WorkingShift>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="card" class="page-content-fl">
+    <div class="container-fluid p-0">
+        <div class="row panel-top-line">
+            <div class="col">
+                <div class="py-7">
+                    <div class="mb-7">
+                        <h4 class="hr-text-left">Shifts</h4>
+                    </div>
+                    <div>
+                        <p>
+                            <a class="my-3 mx-1 btn btn-glass btn-warning" asp-action="Create">Create New</a>
+                        </p>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ShiftName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.StartTime)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EndTime)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkingHr)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkingMin)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td style="vertical-align:middle">
+                                            @Html.DisplayFor(modelItem => item.ShiftName)
+                                        </td>
+                                        <td style="vertical-align:middle">
+                                            @Html.DisplayFor(modelItem => item.StartTime)
+                                        </td>
+                                        <td style="vertical-align:middle">
+                                            @Html.DisplayFor(modelItem => item.EndTime)
+                                        </td>
+                                        <td style="vertical-align:middle">
+                                            @Html.DisplayFor(modelItem => item.WorkingHr)
+                                        </td>
+                                        <td style="vertical-align:middle">
+                                            @Html.DisplayFor(modelItem => item.WorkingMin)
+                                        </td>
+                                        <td>
+                                            <a class="my-3 mx-1 btn btn-xs btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                            <a class="my-3 mx-1 btn btn-xs btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

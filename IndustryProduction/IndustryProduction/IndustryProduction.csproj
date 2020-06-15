@@ -5,6 +5,23 @@
     <UserSecretsId>aspnet-IndustryProduction-701E85C8-6C28-4B62-8D55-2690B830934A</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CameraApp\**" />
+    <Content Remove="CameraApp\**" />
+    <EmbeddedResource Remove="CameraApp\**" />
+    <None Remove="CameraApp\**" />
+    <TypeScriptCompile Remove="CameraApp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200331044131_Initail.cs" />
+    <Compile Remove="Migrations\20200331044131_Initail.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.0" />
@@ -19,7 +36,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="RtspClientSharp" Version="1.3.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="wwwroot\Themes\Beid\assets\js\bootstrap.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Themes\Beid\assets\plugins\dataTables\images\" />
   </ItemGroup>
 
 </Project>

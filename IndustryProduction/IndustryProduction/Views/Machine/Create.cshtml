@@ -1,0 +1,113 @@
+﻿@model IndustryProduction.Models.Machine
+
+@{
+    ViewData["Title"] = "Create";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div id="card" class="page-content-fl">
+        <div class="container-fluid p-0">
+            <div class="row panel-top-line">
+                <div class="col">
+                    <div class="py-7">
+                        <div class="mb-7">
+                            <h4 class="hr-text-left">New Machine</h4>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form asp-action="Create">
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                            <input type="hidden" asp-for="Id" />
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="MachineCode" class="control-label"></label>
+                                                        <input asp-for="MachineCode" class="form-control" />
+                                                        <span asp-validation-for="MachineCode" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label asp-for="IpAddress" class="control-label"></label>
+                                                        <input asp-for="IpAddress" class="form-control" />
+                                                        <span asp-validation-for="IpAddress" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="PortNumber" class="control-label"></label>
+                                                        <input asp-for="PortNumber" class="form-control" />
+                                                        <span asp-validation-for="PortNumber" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label asp-for="MachineModel" class="control-label"></label>
+                                                        <input asp-for="MachineModel" class="form-control" />
+                                                        <span asp-validation-for="MachineModel" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="MacGroup" class="control-label"></label>
+                                                        <input asp-for="MacGroup" class="form-control" />
+                                                        <span asp-validation-for="MacGroup" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="ProductionLine" class="control-label"></label>
+                                                        <input asp-for="ProductionLine" class="form-control" />
+                                                        <span asp-validation-for="ProductionLine" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group form-check">
+                                                        <label class="control-label"></label>
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" asp-for="EnableFlag" /> @Html.DisplayNameFor(model => model.EnableFlag)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group form-check">
+                                                        <label class="control-label"></label>
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" asp-for="ActiveFlag" /> @Html.DisplayNameFor(model => model.ActiveFlag)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <input type="submit" value="Create" class="my-3 mx-1 btn btn-outline-primary" />
+                                                    <a href="@Url.Action("Index", "Machine")" class="my-3 mx-1 btn btn-outline-warning">Back to List</a>
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
